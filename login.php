@@ -1,35 +1,41 @@
+<?php
+    include 'templates/nav.html';
+    session_start();  
+?>
+
 <html>
 <head>
 <title> Login </title>
 <?php
-    include 'templates/nav.html';
+    if ( isset( $_POST[ 'submit' ] ) ) {                               /// If Submit/Login button is pressed
+        if ( empty( $_POST[ 'email' ]) || empty($_POST[ 'password' ] ) ) {      /// Check whether or not login fiels are empty
+            $error = 'One of your fields are empty';
+            header('Location: login.php');
+        } else {
+            $user_email = $_POST[ 'email' ];
+            $user_pass = $_POST[ 'password' ];
     
-    // Grab data from registration fields -> register.php
-    $email = $_POST['email'];
-
-    $user_password = $_POST['password'];
-    $user_id = $_POST['user_id'];
+            $_SESSION[ 'username' ] = $user_email;    /// Create session using users_email address
+            
+            header( 'Location: index.php' );        /// On Successful login, redirect user to Index/Home Page
+        }
+    }
 ?>
 </head>
 
 <body>
-<?php
-    echo "$user_email \n";
-    echo "$user_password \n";
-    echo "$user_id";
-?>
-
 <center>
     <div>
-        <form action='index.php' method='POST'>
+        <form action='login.php' method='POST'>
             Email Address: <br>
             <input type='text' name='email'><br>
             Password: <br>
             <input type='text' name='password'><br>
             <button type='submit' name='submit'>Login</button>
+            <p><?php if ( $error ) { echo $error; }  ?>  
+            </p>   
         </form>
     </div>
 </center>
-
 </body>
 </html>
