@@ -52,8 +52,8 @@
         Password: <br>
         <input type='text' name='password' placeholder='Password'><br>
         ID: <br>
-        <input type='text' name='user_id' placeholder='Student/Tutor ID'><br>
-        <div class="g-recaptcha" data-sitekey="6LdgWL0UAAAAAIh_wr2g1DAjYQpid3nZq18lbsPz"></div>
+        <input type='text' name='user_id' placeholder='Student/Tutor ID'><br> <br>
+        <div class="g-recaptcha" data-sitekey="6LdgWL0UAAAAAIh_wr2g1DAjYQpid3nZq18lbsPz" width='25'></div><br>
         <button type='submit' name='submit'>Login</button> <br> <br>
         <?php if ( $captcha_error ) { echo $captcha_error; } ?>                
         <?php if ( $email_error ) { echo $email_error; } ?>
