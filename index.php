@@ -15,17 +15,14 @@
 
 <div class="jumbotron">
   <h1 class="display-3">Tutor Group Marking System</h1>
-  <p class="lead">As a student it is integral that you complete your work on time</p>
+  <p class="lead">As a student it is integral that you complete your work on time. </p>
   <hr class="my-4">
-  <p>It uses utility classes for typography and spacing to space content out within the larger container.</p>
+  <p>It uses spacing to space content out within the larger container.</p>
   <p class="lead">
     <a class="btn btn-primary btn-lg" href="#" role="button">Test</a>
   </p>
 </div>
 
-<?php
-   echo $_SESSION['username'];
-?>
 
 </body>
 </html>
