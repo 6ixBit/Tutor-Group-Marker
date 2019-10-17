@@ -30,7 +30,7 @@
             Email Address: <br>
             <input type='text' name='email'><br>
             Password: <br>
-            <input type='text' name='password'><br>
+            <input type='password' name='password'><br><br>
             <button type='submit' name='submit'>Login</button>
             <p><?php if ( $error ) { echo $error; }  ?>  
             </p>   

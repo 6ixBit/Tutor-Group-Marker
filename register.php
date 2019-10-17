@@ -20,7 +20,7 @@
             // echo 'The email '.$user_email.' is valid';
 
             $secret_key = "6LdgWL0UAAAAAMt2ygu12pDp037xDa5SqcDdooBJ";
-            $response_key = $_POST[ "g-recaptcha-response" ];                     //Link to Cpatcha elment by class name
+            $response_key = $_POST[ "g-recaptcha-response" ];                     //Link to Captcha elment by class name
             $user_ip = $_SERVER[ 'REMOTE_ADDR' ];                                // Provide google with call back ip for user
     
             $url = "https://www.google.com/recaptcha/api/siteverify?secret=$secret_key&response=$response_key&remoteip=$user_ip";   // URL for API endpoint - {secret:, response:}
@@ -50,7 +50,7 @@
         Email Address: <br>
         <input type='text' name='email' placeholder='User Email'><br>
         Password: <br>
-        <input type='text' name='password' placeholder='Password'><br>
+        <input type='password' name='password' placeholder='Password'><br>
         ID: <br>
         <input type='text' name='user_id' placeholder='Student/Tutor ID'><br> <br>
         <div class="g-recaptcha" data-sitekey="6LdgWL0UAAAAAIh_wr2g1DAjYQpid3nZq18lbsPz" width='25'></div><br>
