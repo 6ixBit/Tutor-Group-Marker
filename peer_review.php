@@ -9,17 +9,40 @@
     </head>
     <body>
         <div class='user_peer'>
-        <center>
+       
             <form action='' method='POST'>
-            <p> Enter your review:
-            <textarea rows="4" cols="50" name='review_text' placeholder='Enter your review here'>
-            </textarea>
-            </p> <br>
-            <p> Upload an image <br>
-            <input type='file' name='imageUpload'> <br>
-            </p> <br>
-            <input type="submit" value="Upload Image" name="submit">
-        </center>   
+            <fieldset> 
+            <div class="form-group">
+                <label for="exampleTextarea" class='review_label'> Enter your review:</label>
+                <style>#reviewText {
+                    position: absolute;
+                    left: 43%;
+                    top: 10%;
+                    width: 15%;}</style>
+
+                    <style>.review_label {
+                    position: absolute;
+                    left: 43%;
+                    top: 7%;
+                    width: 15%;}</style>
+
+                    <style>.submit_review {
+                    position: absolute;
+                    left: 43%;
+                    top: 30%;
+                    width: 15%;}</style>
+
+
+                <textarea id="reviewText" placeholder='Enter a review for your peer' rows="5" cols='50'></textarea>
+            </div>
+           <br>
+            <div class="form-group">
+                <label for="exampleInputFile">File input</label>
+                <input type="file" class="form-control-file" id="exampleInputFile" aria-describedby="fileHelp">
+                <small id="fileHelp" class="form-text text-muted">Image Formats: .jpg, .png</small>
+            </div> <br> <br>
+            <input type="submit" value="Upload Image" class='submit_review' name="submit">
+        </fieldset>
             </form>
         </div>
     </body>
