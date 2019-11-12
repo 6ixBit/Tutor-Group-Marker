@@ -53,8 +53,20 @@
         <input type='password' name='password' placeholder='Password'><br>
         ID: <br>
         <input type='text' name='user_id' placeholder='Student/Tutor ID'><br> <br>
-        <div class="g-recaptcha" data-sitekey="6LdgWL0UAAAAAIh_wr2g1DAjYQpid3nZq18lbsPz" width='25'></div><br>
-        <button type='submit' name='submit'>Login</button> <br> <br>
+        What type of user are you?
+        <select name='user_type'>
+            <option value='tutor'>Tutor</option>
+            <option value='Student'>Student</option>
+        </select> <br> <br>
+        Please select a group:
+        <select>                                                              <!-- replace with php that loads options based on groups in database -->
+            <option value=''>Group 1</option>
+            <option value=''>Group 2</option>
+            <option value=''>Group 3</option>
+        </select> <br> <br>
+
+        <div class="g-recaptcha" data-sitekey="6LdgWL0UAAAAAIh_wr2g1DAjYQpid3nZq18lbsPz" width='25'></div><br>   <!-- API key for Captcha --> 
+        <button type='submit' name='submit'>Register</button> <br> <br>
         <?php if ( $captcha_error ) { echo $captcha_error; } ?>                
         <?php if ( $email_error ) { echo $email_error; } ?>
     </form>

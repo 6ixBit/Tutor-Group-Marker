@@ -14,7 +14,7 @@
             <fieldset> 
             <div class="form-group">
                 <label for="exampleTextarea" class='review_label'> Enter your review:</label>
-                <style>#reviewText {
+                <style> #reviewText {
                     position: absolute;
                     left: 43%;
                     top: 10%;
