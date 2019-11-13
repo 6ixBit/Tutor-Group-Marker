@@ -27,7 +27,7 @@
                     position: absolute;
                     left: 43%;
                     top: 10%;
-                    width: 15%;}
+                    width: 20%;}
                     </style>
 
                     <style>.review_label {
@@ -37,17 +37,17 @@
                     width: 15%;}
                     </style>
 
-                    <style>.submit_review {
+                    <style>.upload_img{
                     position: absolute;
                     left: 43%;
-                    top: 35%;
+                    top: 36%;
                     width: 15%;}
                     </style>
 
                     <style>.image_upload_form {
                     position: absolute;
                     left: 43%;
-                    top: 25%;
+                    top: 27%;
                     width: 15%;}
                     </style>
 
@@ -55,7 +55,7 @@
                         .select_user {
                         position: absolute;
                         left: 1%;
-                        top: 12%;
+                        top: 13%;
                         width: 15%;
                         }
                     </style>
@@ -64,15 +64,15 @@
                         .load_review {
                         position: absolute;
                         left: 1%;
-                        top: 16%;
-                        width: 8%;
+                        top: 22%;
+                        width: 12%;
                         }
                     </style>
 
                     <style>.rating {
                     position: absolute;
                     left: 43%;
-                    top: 41%;
+                    top: 42%;
                     width: 15%;}
                     </style>
 
@@ -94,12 +94,12 @@
             <div class="image_upload_form">
                 <label for="Upload_image">Upload an image:</label>
                 <input type="file" id="Upload_image">
-                <small id="fileHelp" class="form-text text-muted">Image Formats: .jpg, .png</small>
             </div> <br> <br>
-            <input type="submit" value="Upload Image" class='submit_review' name="submit">
+            <input type="submit" value="Upload Image" class='upload_img' name="submit">
         </fieldset>
         <div class='rating'>
             Rating: <select name='user_rating'>
+                <option>0</option>
                 <option>1</option>
                 <option>2</option>
                 <option>3</option>

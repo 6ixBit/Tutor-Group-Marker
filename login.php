@@ -31,7 +31,13 @@
             <input type='text' name='email'><br>
             Password: <br>
             <input type='password' name='password'><br><br>
-            <button type='submit' name='submit'>Login</button>
+
+            What type of user are you?
+            <select name='user_type'>
+                <option value='tutor'>Tutor</option>
+                <option value='Student'>Student</option>
+            </select> <br> <br>
+            <button type='submit' name='submit'>Login</button> <br>
             <p><?php if ( $error ) { echo $error; }  ?>  
             </p>   
         </form>

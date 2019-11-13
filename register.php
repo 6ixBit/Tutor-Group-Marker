@@ -53,16 +53,18 @@
         <input type='password' name='password' placeholder='Password'><br>
         ID: <br>
         <input type='text' name='user_id' placeholder='Student/Tutor ID'><br> <br>
-        What type of user are you?
-        <select name='user_type'>
-            <option value='tutor'>Tutor</option>
-            <option value='Student'>Student</option>
-        </select> <br> <br>
         Please select a group:
         <select>                                                              <!-- replace with php that loads options based on groups in database -->
             <option value=''>Group 1</option>
             <option value=''>Group 2</option>
             <option value=''>Group 3</option>
+            <option value=''>Group 4</option>
+            <option value=''>Group 5</option>
+            <option value=''>Group 6</option>
+            <option value=''>Group 7</option>
+            <option value=''>Group 8</option>
+            <option value=''>Group 9</option>
+            <option value=''>Group 10</option>
         </select> <br> <br>
 
         <div class="g-recaptcha" data-sitekey="6LdgWL0UAAAAAIh_wr2g1DAjYQpid3nZq18lbsPz" width='25'></div><br>   <!-- API key for Captcha --> 
