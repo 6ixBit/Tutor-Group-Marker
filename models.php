@@ -1,11 +1,7 @@
 <?php
-include 'config.php';
+include 'local_config.php';
 
-function get_group_names(){
-    $host = "mysql.cms.gre.ac.uk";
-    $user = "mn7754c";
-    $password = "mn7754c";
-    $db_name = "mdb_mn7754c";
+function get_group_names($host, $user, $passwd, $db_name){
 
     $conn = new mysqli($host, $user, $passwd, $db_name) or die('Failed to connect to db: %s'.$conn -> error);
     $query = 'SELECT * FROM Groups';
@@ -19,5 +15,5 @@ function get_group_names(){
       $mysqli->close();
 }
 
-get_group_names();
+get_group_names($host, $user, $passwd, $db_name);
 ?>

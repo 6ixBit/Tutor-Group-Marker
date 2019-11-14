@@ -1,6 +1,4 @@
 <?php
-    include 'models.php'; 
-
     session_start();                        //Start Session if key,value pair for session has been set 
     if(isset($_SESSION['username'])){           //IF user is logged in/Session 
         include 'templates/loggedIn_nav.html';

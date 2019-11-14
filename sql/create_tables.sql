@@ -1,7 +1,7 @@
 CREATE TABLE `Tutor` (
   `Tutor_id` INT AUTO_INCREMENT PRIMARY KEY,
-  `uid` INT,
-  `password` VARCHAR(255)
+  `uid_` VARCHAR(11),
+  `password_` VARCHAR(255)
 );
 
 CREATE TABLE `Groups` (
