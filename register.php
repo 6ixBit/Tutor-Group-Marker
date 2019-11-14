@@ -5,6 +5,8 @@
 <head>
     <title> Register </title>
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+    <script type='text/javascript' src='app.js'>
+    </script>
 </head>
 <body>
 <?php
@@ -56,23 +58,13 @@
         Please select a group:
         <select>                                                              <!-- replace with php that loads options based on groups in database -->
             <option value=''>Group 1</option>
-            <option value=''>Group 2</option>
-            <option value=''>Group 3</option>
-            <option value=''>Group 4</option>
-            <option value=''>Group 5</option>
-            <option value=''>Group 6</option>
-            <option value=''>Group 7</option>
-            <option value=''>Group 8</option>
-            <option value=''>Group 9</option>
-            <option value=''>Group 10</option>
         </select> <br> <br>
 
         <div class="g-recaptcha" data-sitekey="6LdgWL0UAAAAAIh_wr2g1DAjYQpid3nZq18lbsPz" width='25'></div><br>   <!-- API key for Captcha --> 
-        <button type='submit' name='submit'>Register</button> <br> <br>
+        <button type='submit' name='submit' class='register' onclick='validate_id()'>Register</button> <br> <br>
         <?php if ( $captcha_error ) { echo $captcha_error; } ?>                
         <?php if ( $email_error ) { echo $email_error; } ?>
     </form>
 </center>
-
 </body>
 </html>
