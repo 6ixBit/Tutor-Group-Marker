@@ -9,3 +9,14 @@ $conn = mysqli_connect($host, $user, $passwd) or die('Failed: '.mysqli_connect_e
 $query = 'SELECT * FROM Groups';
 $result = mysqli_query($conn, $query)
 ?>
+
+<?php
+    function calc_average_grade(){
+        return NULL;
+    }
+
+    function get_user(){
+        return NULL;
+    }
+
+?>

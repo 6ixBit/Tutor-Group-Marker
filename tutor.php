@@ -1,7 +1,6 @@
 <?php
-    session_start();  
-    include 'templates/tutor_nav.html';
-
+    session_start();                     //Home page for tutor will consists of rows of groups with a button to view
+    include 'templates/tutor_nav.html';  //Group memebers
 ?>
 
 <html>
@@ -9,6 +8,6 @@
     <title>Tutor Evaluations</title>
 </head>
 <body>
-<h1>Your Groups</h1>
+<h1>Student Groups</h1>
 </body>
 </html>
