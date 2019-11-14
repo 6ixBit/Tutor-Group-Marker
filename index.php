@@ -11,7 +11,7 @@
 ?>
 <html>
 <head>
-<title> <?php get_group_names() ?></title>
+<title> Home </title>
 </head>
 <body>
 
