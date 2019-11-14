@@ -1,11 +1,12 @@
 <?php
     include 'templates/loggedIn_nav.html';
+    include 'models.php';                           // Include models for database      
     session_start();  
 ?>
 
 <html>
     <head>
-        <title>Student Peer Reviews</title>
+        <title>Student peer reviews</title>
     </head>
     <body>
         <div class='user_peer'>
