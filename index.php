@@ -1,15 +1,17 @@
 <?php
+    include 'models.php'; 
+
     session_start();                        //Start Session if key,value pair for session has been set 
     if(isset($_SESSION['username'])){           //IF user is logged in/Session 
         include 'templates/loggedIn_nav.html';
     } else {
-        include 'templates/nav.html';
+        include 'templates/nav.html'; 
         session_destroy();
     }
 ?>
 <html>
 <head>
-<title> Home </title>
+<title> <?php get_group_names() ?></title>
 </head>
 <body>
 
@@ -22,7 +24,5 @@
     <a class="btn btn-primary btn-lg" href="#" role="button">Test</a>
   </p>
 </div>
-
-
 </body>
 </html>
