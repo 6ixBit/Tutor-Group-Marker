@@ -6,7 +6,9 @@
 <html>
 <head>
     <title>Tutor Evaluations</title>
+    <script type='text/javascript' src='app.js'></script>
 </head>
+
 <body>
 <center><h1>Student Groups</h1></center> <br> <br>
 <!-- For loop to loop over results gather from groups in database -->
@@ -17,14 +19,20 @@
       <th scope="col">No. of Group members</th>
       <th scope="col">No. of Evaluations</th>
       <th scope="col">Completed</th>
+      <th scope="col"></th>
+      <th scope="col"></th>
     </tr>
   </thead>
   <tbody>
     <tr class="table-active">
-      <th scope="row">Group 1</th>
+      <th scope="row"><a href='' onclick=''>Group 1</a></th>
       <td>6</td>
       <td>6</td>
       <td>Yes</td>
+      
+      <td><button name="send_results" type="submit" class="btn btn-primary">Send Results</button></td>
+      <td><button name="send_reminder" type="submit" class="btn btn-primary">Send Reminder</button></td>
+
     </tr>
   </tbody>
 </table> <br> <br>
@@ -38,6 +46,7 @@
       <option value="3">Group 3</option>
     </select>
   </div>
+
     Select a student profile from that group:
   <select class="select-student" onchange="">
       <option value="1">Student 1</option>
@@ -46,8 +55,8 @@
     </select> <br> <br>
     <button type="submit" name="submit">View profile</button>
   </div>
-</form>
 
+</form>
 </body>
 </html>
 

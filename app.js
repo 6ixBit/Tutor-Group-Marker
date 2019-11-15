@@ -7,7 +7,11 @@ var validate_id = () => {
         return False
     }
 }
+ 
+var send_reminders = () => {
+    return null
+}
 
-var dark_mode = () => {
-    return False
+var send_results = () => {
+    return null
 }
