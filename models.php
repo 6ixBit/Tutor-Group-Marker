@@ -19,4 +19,7 @@ $result = mysqli_query($conn, $query)
         return NULL;
     }
 
+    function get_all_groups(){
+        return NULL;
+    }
 ?>

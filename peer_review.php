@@ -1,6 +1,6 @@
 <?php
     include 'templates/loggedIn_nav.html';
-    include 'models.php';                           // Include models for database      
+    // include 'models.php';                           // Include models for database      
     session_start();  
 ?>
 
