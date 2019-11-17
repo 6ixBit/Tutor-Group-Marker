@@ -1,13 +1,12 @@
 <?php
-$host = "mysql.cms.gre.ac.uk";
-$user = "mn7754c";
-$password = "root123";
-$db_name = "mdb_mn7754c";
+include 'config.php';
 
-$conn = mysqli_connect($host, $user, $passwd) or die('Failed: '.mysqli_connect_error);
+$conn = mysqli_connect($host, $user, $password, $db_name);
 
-$query = 'SELECT * FROM Groups';
-$result = mysqli_query($conn, $query)
+$query = 'SELECT * FROM Tutor';
+$result = mysqli_query($conn, $query);
+echo mysqli_num_rows($result);
+
 ?>
 
 <?php
