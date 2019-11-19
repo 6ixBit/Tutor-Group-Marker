@@ -1,5 +1,7 @@
 <?php
     include 'templates/nav.html';
+	include 'config.php';
+	include 'models.php';
 ?>
 <html>
 <head>
@@ -56,10 +58,16 @@
         ID: <br>
         <input type='text' name='user_id' placeholder='Student/Tutor ID'><br> <br>
         Please select a group:
-        <select>                                                              <!-- replace with php that loads options based on groups in database -->
-            <option value=''>Group 1</option>
-        </select> <br> <br>
 
+		<select name="groups">
+		<?php 
+		$groups = get_all_groups($host, $user, $password, $db_name);          // Call function for db results, loop through results and output
+		foreach ($groups as $group){
+		 echo '<option>'.$group.'</option>';
+		}
+		?>
+		</select> <br> <br>
+ 
         <div class="g-recaptcha" data-sitekey="6LdgWL0UAAAAAIh_wr2g1DAjYQpid3nZq18lbsPz" width='25'></div><br>   <!-- API key for Captcha --> 
         <button type='submit' name='submit' class='register' onclick='validate_id()'>Register</button> <br> <br>
         <?php if ( $captcha_error ) { echo $captcha_error; } ?>                
