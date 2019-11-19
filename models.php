@@ -1,9 +1,20 @@
 <?php
 include 'config.php';
+
 $conn = mysqli_connect($host, $user, $password, $db_name);
-$query = 'SELECT * FROM Tutor';
+$query = 'SELECT * FROM Groups';
 $result = mysqli_query($conn, $query);
-echo mysqli_num_rows($result);
+
+if (mysqli_num_rows($result) > 0) {
+	while($row = mysqli_fetch_assoc($result)){
+		echo $row["group_name"]. "<br>";
+	}
+} else {
+	echo "No results";
+}
+
+mysqli_close($conn);
+
 ?>
 
 <?php

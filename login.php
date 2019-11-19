@@ -1,7 +1,12 @@
 <?php
-    include 'templates/nav.html';
     session_start();  
 ?>
+
+<style type="text/css">
+<?php
+ include 'templates/nav.html';
+?>
+</style>
 
 <html>
 <head>
