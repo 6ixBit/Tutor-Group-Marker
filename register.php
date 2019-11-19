@@ -57,15 +57,14 @@
         <input type='password' name='password' placeholder='Password'><br>
         ID: <br>
         <input type='text' name='user_id' placeholder='Student/Tutor ID'><br> <br>
-        Please select a group:
 
+        Please select a group:
 		<select name="groups">
 		<?php 
 		$groups = get_all_groups($host, $user, $password, $db_name);          // Call function for db results, loop through results and output
-		foreach ($groups as $group){
-		 echo '<option>'.$group.'</option>';
-		}
-		?>
+		foreach ($groups as $group){ ?>
+		  <option value="<?php echo $group; ?>"> <?php echo $group; ?> </option>;
+		<?php } ?>
 		</select> <br> <br>
  
         <div class="g-recaptcha" data-sitekey="6LdgWL0UAAAAAIh_wr2g1DAjYQpid3nZq18lbsPz" width='25'></div><br>   <!-- API key for Captcha --> 
