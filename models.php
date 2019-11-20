@@ -1,5 +1,6 @@
 <?php
 include 'config.php';
+include_once 'controller.php';
 ?>
 
 <?php
@@ -30,6 +31,7 @@ include 'config.php';
 
 		$row = mysqli_fetch_assoc($result);
 		echo $row['passw'];
+		return $row['passw'];
 	}
 
 	function register_student($username, $user_passw, $user_id, $group_id, $conn){
@@ -116,6 +118,25 @@ include 'config.php';
 
 		return $value;
 		}
+
+	function login_student($username, $form_password, $conn){
+		
+		$student_passw = get_user_passw($username, $conn);
+
+		if (decrypt_pass($form_password, $student_passw)) {
+		    echo "Login successful";
+	        return TRUE;	
+		} else {
+			echo "Login failed";
+			return FALSE;
+		}
+	}
+
+	function login_tutor($username, $password, $conn){
+		return NULL;
+	}
+
+	//login_student("admin@gre.ac.uk", "hsalsldld", $conn);
 
 	//register_student("admin@gre.ac.uk", encrypt_pass("hsalsldld"), "05045465", 2, $conn);
 	//get_user("test@gre.ac.uk", $conn);

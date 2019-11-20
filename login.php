@@ -1,28 +1,34 @@
 <?php
     session_start();  
+	include 'templates/nav.html';
+	include_once 'models.php';
+	include 'config.php';
 ?>
-
-<style type="text/css">
-<?php
- include 'templates/nav.html';
-?>
-</style>
 
 <html>
 <head>
 <title> Login </title>
 <?php
-    if ( isset( $_POST[ 'submit' ] ) ) {                               /// If Submit/Login button is pressed
-        if ( empty( $_POST[ 'email' ]) || empty($_POST[ 'password' ] ) ) {      /// Check whether or not login fiels are empty
+    if ( isset($_POST['submit']) ) {                               
+        if (empty($_POST[ 'email' ]) || empty($_POST[ 'password' ])) {      /// Check whether or not login fiels are empty
             $error = 'One of your fields are empty';
             header('Location: login.php');
         } else {
             $user_email = $_POST[ 'email' ];
             $user_pass = $_POST[ 'password' ];
-    
             $_SESSION[ 'username' ] = $user_email;    /// Create session using users_email address
-            
-            header( 'Location: index.php' );        /// On Successful login, redirect user to Index/Home Page
+
+			if ($_POST['user_type'] == 'Student'){
+				if (login_student($user_email, $user_pass, $conn)){
+					echo "Login Successful!";
+					//header( 'Location: index.php' );
+				} else {
+					$password_error = "Wrong username or password entered!";
+				}
+			} else { 
+			//IF Tutor is selectd
+			echo 'Not coded yet';
+			}
         }
     }
 ?>
@@ -39,12 +45,14 @@
 
             What type of user are you?
             <select name='user_type'>
-                <option value='tutor'>Tutor</option>
-                <option value='Student'>Student</option>
+			    <option value='Student'>Student</option>
+                <option value='Tutor'>Tutor</option>
             </select> <br> <br>
+
             <button type='submit' name='submit'>Login</button> <br>
-            <p><?php if ( $error ) { echo $error; }  ?>  
-            </p>   
+            <?php if ( $error ) { echo $error; }  ?>  
+			<?php if ( $password_error ) { echo $password_error; }  ?>
+			
         </form>
     </div>
 </center>
