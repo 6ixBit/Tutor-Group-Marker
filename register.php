@@ -1,8 +1,8 @@
 <?php
-    include 'templates/nav.html';
-	include 'config.php';
-	include 'models.php';
-	include 'controller.php';
+include 'templates/nav.html';
+include 'config.php';
+include 'models.php';
+include_once 'controller.php';
 ?>
 <html>
 <head>
@@ -38,7 +38,6 @@
 
 					header( 'Location: login.php' );                               
 				}
-
             } else {
 				//Assign an error message to display if Captcha failed
                 $captcha_error = 'Captcha failed, Please try again!';

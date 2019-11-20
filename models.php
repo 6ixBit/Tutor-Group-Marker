@@ -120,5 +120,4 @@ include 'controller.php';
 
 	//register_student("admin@gre.ac.uk", encrypt_pass("hsalsldld"), "05045465", 2, $conn);
 	//get_user("test@gre.ac.uk", $conn);
-
 ?>

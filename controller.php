@@ -1,24 +1,26 @@
 <?php
-	function encrypt_pass( $user_pass ){
-	///-- Encrypt password using Bcrypt/Default --///
-        $encrypted_pass = password_hash( $user_pass, PASSWORD_DEFAULT );       
-		return $encrypted_pass;
+
+	function encrypt_pass($user_pass){
+	///-- Encrypt password using Bcrypt/Default --///    
+		echo password_hash($user_pass, PASSWORD_DEFAULT);
     }
 
-	function decrypt_pass( $user_pass, $hash ){
+	function decrypt_pass($user_pass, $hash){
 	///-- Decrypt password using Bcrypt/Default --///
-		$decrypted_pass = password_verify($user_pass, $hash);
-
-		if ($decrypted_pass == TRUE){
-			return TRUE;
+		if (password_verify($user_pass, $hash)) {
+			echo 'Password is valid';
+		} else {
+		    echo 'Password is invalid';
 		}
-		return FALSE;
 	}
 
-	function get_dropdown_id( $selected_option ){
+	function get_dropdown_id($selected_option){
 		//-- If passed as a param; Returns the ID from the group drop down menu list on register page --//
 		$group_id = explode(" ", $selected_option);
-		return intval($group_id[1]); 
+		echo intval($group_id[1]); 
 	}
 
+	//get_dropdown_id("Group 5"); - WORKS
+	//encrypt_pass('password'); - WORKS
+	decrypt_pass('password', '$2y$10$Yl2JcGBQDKdZlLhys9iS9.zb2fhZYmMTF63jM9kh39t3IeW6eqjBK');
 ?>
