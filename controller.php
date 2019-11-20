@@ -15,10 +15,10 @@
 		return FALSE;
 	}
 
-
-
-
-
-
+	function get_dropdown_id( $selected_option ){
+		//-- If passed as a param; Returns the ID from the group drop down menu list on register page --//
+		$group_id = explode(" ", $selected_option);
+		return intval($group_id[1]); 
+	}
 
 ?>

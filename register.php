@@ -2,6 +2,7 @@
     include 'templates/nav.html';
 	include 'config.php';
 	include 'models.php';
+	include 'controller.php';
 ?>
 <html>
 <head>
@@ -11,27 +12,31 @@
     </script>
 </head>
 <body>
+
 <?php
     if (isset ($_POST['submit']) ){                                           // Check if element 'submit' has been pressed
 
         $user_email = $_POST['email'];
 		$user_password = $_POST['password'];
 		$user_id = $_POST['user_id'];
-		$user_group = $_POST['groups'];
+		$group_id = get_dropdown_id($_POST['groups']);
+		$group_name = $_POST['groups'];
 
         if ( filter_var($user_email, FILTER_VALIDATE_EMAIL )) {                     // Check if email is valid
             $json_response = file_get_contents( $url );                             // Grab JSON response from Google API
             $result = json_decode( $json_response );
     
             if ( $result->success == 'true') {                                     //If recaptcha was successful
-				$group_count = get_group_count($user_group, $conn);
+				$group_count = get_group_count($group_name, $conn);
 
 				if ($group_count >= 3){
 					$group_error = "Sorry, this group already has 3 members";
 				} else {
+					// Encrypt user password and submit to database.
 					$encrypted_pass = encrypt_pass($user_password);
-					register_student($user_email, $user_password, $user_id, $user_group, $conn);
-					//header( 'Location: login.php' );                               
+					register_student($user_email, $encrypted_pass, $user_id, $group_id, $conn);
+
+					header( 'Location: login.php' );                               
 				}
 
             } else {

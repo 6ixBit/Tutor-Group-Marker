@@ -1,5 +1,6 @@
 <?php
 include 'config.php';
+include 'controller.php';
 ?>
 
 <?php
@@ -49,7 +50,6 @@ include 'config.php';
 			mysqli_stmt_execute($stmt);
 			echo "Query executed successfully";
 		}
-		return TRUE;
 	}
 
 	function get_group_count($group_name, $conn){   
@@ -118,6 +118,7 @@ include 'config.php';
 		return $value;
 		}
 
-	//register_student("test@gre.ac.uk", "hsalsldld", "0506965", 1, $conn);
-	get_user("test@gre.ac.uk", $conn);
+	//register_student("admin@gre.ac.uk", encrypt_pass("hsalsldld"), "05045465", 2, $conn);
+	//get_user("test@gre.ac.uk", $conn);
+
 ?>
