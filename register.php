@@ -12,23 +12,14 @@
 </head>
 <body>
 <?php
-    function encrypt_pass( $user_pass ){
-        $encrypted_pass = password_hash( $user_pass, PASSWORD_DEFAULT );       /// Encrypt password using Bcrypt/Default
-    }
-
-    if ( isset ( $_POST[ 'submit' ] ) ) {                                           // Check if element 'submit' has been pressed
+    if (isset ($_POST['submit']) ){                                           // Check if element 'submit' has been pressed
 
         $user_email = $_POST['email'];
+		$user_password = $_POST['password'];
+		$user_id = $_POST['user_id'];
 
         if ( filter_var($user_email, FILTER_VALIDATE_EMAIL )) {                    // Check if email is valid
-            // echo 'The email '.$user_email.' is valid';
 
-            $secret_key = "6LdgWL0UAAAAAMt2ygu12pDp037xDa5SqcDdooBJ";
-            $response_key = $_POST[ "g-recaptcha-response" ];                     //Link to Captcha elment by class name
-            $user_ip = $_SERVER[ 'REMOTE_ADDR' ];                                // Provide google with call back ip for user
-    
-            $url = "https://www.google.com/recaptcha/api/siteverify?secret=$secret_key&response=$response_key&remoteip=$user_ip";   // URL for API endpoint - {secret:, response:}
-    
             $json_response = file_get_contents( $url );                             // Grab JSON response from Google API
             $result = json_decode( $json_response );
     
@@ -42,8 +33,7 @@
                 $captcha_error = 'Captcha failed, Please try again!';
             }
 
-        } else {                                                                   //If Email entered is not valid
-            //echo 'The email: '.$user_email,' is not valid!';
+        } else {                                                                   //If Email entered is NOT valid
             $email_error = 'The email you entered is not valid';
         }
     }
@@ -61,13 +51,13 @@
         Please select a group:
 		<select name="groups">
 		<?php 
-		$groups = get_all_groups($host, $user, $password, $db_name);          // Call function for db results, loop through results and output
+		$groups = get_all_groups($conn);          // Call function for db results, loop through results and output
 		foreach ($groups as $group){ ?>
 		  <option value="<?php echo $group; ?>"> <?php echo $group; ?> </option>;
 		<?php } ?>
 		</select> <br> <br>
  
-        <div class="g-recaptcha" data-sitekey="6LdgWL0UAAAAAIh_wr2g1DAjYQpid3nZq18lbsPz" width='25'></div><br>   <!-- API key for Captcha --> 
+        <div class="g-recaptcha" data-sitekey="6LdgWL0UAAAAAIh_wr2g1DAjYQpid3nZq18lbsPz" width='25'></div><br>   <!-- API key for reCaptcha --> 
         <button type='submit' name='submit' class='register' onclick='validate_id()'>Register</button> <br> <br>
         <?php if ( $captcha_error ) { echo $captcha_error; } ?>                
         <?php if ( $email_error ) { echo $email_error; } ?>
