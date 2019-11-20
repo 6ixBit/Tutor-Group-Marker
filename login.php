@@ -14,20 +14,27 @@
             $error = 'One of your fields are empty';
             header('Location: login.php');
         } else {
-            $user_email = $_POST[ 'email' ];
-            $user_pass = $_POST[ 'password' ];
-            $_SESSION[ 'username' ] = $user_email;    /// Create session using users_email address
+            $username = $_POST[ 'email' ];
+            $user_pass = $_POST[ 'password' ];   
 
 			if ($_POST['user_type'] == 'Student'){
-				if (login_student($user_email, $user_pass, $conn)){
-					echo "Login Successful!";
-					//header( 'Location: index.php' );
+				if (login_student($username, $user_pass, $conn)){
+					//-- IF login decryption was successful --//
+					$_SESSION[ 'username' ] = $username;
+					header( 'Location: index.php' );
 				} else {
 					$password_error = "Wrong username or password entered!";
 				}
 			} else { 
-			//IF Tutor is selectd
-			echo 'Not coded yet';
+			//-- IF Tutor is selectd -- //
+			if (login_tutor($username, $user_pass, $conn) == FALSE){
+				$login_error = 'Wrong username/password entered for Tutor';
+
+			} else {
+				$_SESSION[ 'username' ] = $username;
+				sleep(2);
+				header( 'Location: tutor.php' );
+			}
 			}
         }
     }
@@ -52,6 +59,7 @@
             <button type='submit' name='submit'>Login</button> <br>
             <?php if ( $error ) { echo $error; }  ?>  
 			<?php if ( $password_error ) { echo $password_error; }  ?>
+			<?php if ( $login_error ) { echo $login_error; }  ?>
 			
         </form>
     </div>

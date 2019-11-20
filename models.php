@@ -120,24 +120,31 @@ include_once 'controller.php';
 		}
 
 	function login_student($username, $form_password, $conn){
-		
+		//-- Returns true if hashed password matches form data --//
 		$student_passw = get_user_passw($username, $conn);
 
 		if (decrypt_pass($form_password, $student_passw)) {
-		    echo "Login successful";
 	        return TRUE;	
 		} else {
-			echo "Login failed";
 			return FALSE;
 		}
 	}
 
 	function login_tutor($username, $password, $conn){
-		return NULL;
+		///-- Return True if user id & login matches --///
+		$query = "SELECT * FROM Tutor WHERE uid_='$username' AND password_='$password'";
+		$result = mysqli_query($conn, $query);
+		
+		if (mysqli_num_rows($result) == 0) {
+			//echo "Login failed";
+			return FALSE;
+		} else {
+			//echo "Login successful";
+			return TRUE;
+		}
 	}
-
-	//login_student("admin@gre.ac.uk", "hsalsldld", $conn);
 
 	//register_student("admin@gre.ac.uk", encrypt_pass("hsalsldld"), "05045465", 2, $conn);
 	//get_user("test@gre.ac.uk", $conn);
+	//login_tutor('000000000', '000000000', $conn);
 ?>

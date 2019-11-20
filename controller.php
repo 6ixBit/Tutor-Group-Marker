@@ -20,7 +20,4 @@
 		return intval($group_id[1]); 
 	}
 
-	//get_dropdown_id("Group 5"); - WORKS
-	//encrypt_pass('password'); - WORKS
-	//decrypt_pass('password', '$2y$10$Yl2JcGBQDKdZlLhys9iS9.zb2fhZYmMTF63jM9kh39t3IeW6eqjBK'); - WORKS
 ?>
