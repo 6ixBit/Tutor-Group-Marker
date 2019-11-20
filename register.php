@@ -35,7 +35,9 @@ include_once 'controller.php';
 					// Encrypt user password and submit to database.
 					$encrypted_pass = encrypt_pass($user_password);
 					register_student($user_email, $encrypted_pass, $user_id, $group_id, $conn);
+					update_group_count($group_name, $conn);
 
+					sleep(3);
 					header( 'Location: login.php' );                               
 				}
             } else {
