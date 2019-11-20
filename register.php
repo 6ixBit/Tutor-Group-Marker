@@ -17,23 +17,29 @@
         $user_email = $_POST['email'];
 		$user_password = $_POST['password'];
 		$user_id = $_POST['user_id'];
+		$user_group = $_POST['groups'];
 
-        if ( filter_var($user_email, FILTER_VALIDATE_EMAIL )) {                    // Check if email is valid
-
+        if ( filter_var($user_email, FILTER_VALIDATE_EMAIL )) {                     // Check if email is valid
             $json_response = file_get_contents( $url );                             // Grab JSON response from Google API
             $result = json_decode( $json_response );
     
-            if ( $result->success == 'true') {                                              //Verify if recaptcha was successful
-                header( 'Location: login.php' );                                  // Redirect user to Login page upon captcha confirmation
-        
-                $user_email = $_POST[ 'email' ];
-                $user_pass = $_POST[ 'password' ];
-                encrypt_pass( $user_pass );                                        //Encrypt user password
+            if ( $result->success == 'true') {                                     //If recaptcha was successful
+				$group_count = get_group_count($user_group, $conn);
+
+				if ($group_count >= 3){
+					$group_error = "Sorry, this group already has 3 members";
+				} else {
+					$encrypted_pass = encrypt_pass($user_password);
+					register_student($user_email, $user_password, $user_id, $user_group, $conn);
+					//header( 'Location: login.php' );                               
+				}
+
             } else {
+				//Assign an error message to display if Captcha failed
                 $captcha_error = 'Captcha failed, Please try again!';
             }
-
-        } else {                                                                   //If Email entered is NOT valid
+        } else {  
+			//Assign an error message to display if email validation failed
             $email_error = 'The email you entered is not valid';
         }
     }
@@ -58,9 +64,10 @@
 		</select> <br> <br>
  
         <div class="g-recaptcha" data-sitekey="6LdgWL0UAAAAAIh_wr2g1DAjYQpid3nZq18lbsPz" width='25'></div><br>   <!-- API key for reCaptcha --> 
-        <button type='submit' name='submit' class='register' onclick='validate_id()'>Register</button> <br> <br>
+        <button type='submit' name='submit' class='register' onclick=''>Register</button> <br> <br>
         <?php if ( $captcha_error ) { echo $captcha_error; } ?>                
         <?php if ( $email_error ) { echo $email_error; } ?>
+		<?php if ( $group_error ) { echo $group_error; } ?>
     </form>
 </center>
 </body>

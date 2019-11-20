@@ -6,9 +6,31 @@ include 'config.php';
     function calc_average_grade(){
         return NULL;
     }
-    function get_user(){
-        return NULL;
+    function get_user($username, $conn){
+		///-- Returns an instance of a given user  --///
+		$query = "SELECT * FROM Member WHERE e_mail='$username'";
+        $result = mysqli_query($conn, $query);
+
+		$row = mysqli_fetch_assoc($result);
+
+		// Parse results into associative array so it can be returned on function call.
+		$user['groups_id'] = $row['groups_id'];
+		$user['e_mail'] = $row['e_mail'];
+		$user['uid'] = $row['uid'];
+		$user['role'] = $row['role'];
+		$user['overall_grade'] = $row['overall_grade'];
+
+		return $user;
     }
+
+	function get_user_passw($username, $conn){
+		///-- Returns the password of a given user. Called upon user login. --/// 
+		$query = "SELECT passw FROM Member WHERE e_mail='$username'";
+		$result = mysqli_query($conn, $query);
+
+		$row = mysqli_fetch_assoc($result);
+		echo $row['passw'];
+	}
 
 	function register_student($username, $user_passw, $user_id, $group_id, $conn){
 		///-- Inserts $username, $user_id, $user_passw into database using PDO to avoid SQL Injection --/// 
@@ -27,6 +49,7 @@ include 'config.php';
 			mysqli_stmt_execute($stmt);
 			echo "Query executed successfully";
 		}
+		return TRUE;
 	}
 
 	function get_group_count($group_name, $conn){   
@@ -35,7 +58,8 @@ include 'config.php';
 		$result = mysqli_query($conn, $query);
 
 		$row = mysqli_fetch_assoc($result);
-		echo $row['no_of_users'];
+		
+		return $row['no_of_users'];
 	}
 
 	function get_evaluations_count($group_name, $conn){ 
@@ -95,4 +119,5 @@ include 'config.php';
 		}
 
 	//register_student("test@gre.ac.uk", "hsalsldld", "0506965", 1, $conn);
+	get_user("test@gre.ac.uk", $conn);
 ?>
