@@ -64,6 +64,16 @@ include_once 'controller.php';
 		return $row['no_of_users'];
 	}
 
+	function get_group_members($user, $group_id, $conn){
+		///-- Returns e-mails of users who are in the same group --//
+		///-- $user = username of user requesting group members
+		///-- $group_id = group to be checked
+
+
+
+
+	}
+
 	function get_evaluations_count($group_name, $conn){ 
 		///-- Returns number of evaluations in a group --///
 		$query = "SELECT no_of_evaluations FROM Groups WHERE group_name='$group_name'";

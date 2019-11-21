@@ -20,6 +20,7 @@
         <div class='user_peer'>
         
 		<?php echo "<h1>Your Group: ".$user['groups_id']."</h1>"; ?>
+
         <div class='select_user'>
 			Select a user to review: <select value='users_in_group'>
 				<option value='user_1'>User 1</option>
