@@ -45,7 +45,7 @@
 <center>
     <div>
         <form action='login.php' method='POST'>
-            Email Address: <br>
+            E-mail/Tutor ID: <br>
             <input type='text' name='email'><br>
             Password: <br>
             <input type='password' name='password'><br><br>

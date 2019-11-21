@@ -14,6 +14,7 @@
         }
     </style>
 </head>
+
 <body>
 <center>
 <h1><i>mn7754c@gre.ac.uk Student Profile</i></h1>
