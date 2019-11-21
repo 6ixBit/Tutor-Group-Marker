@@ -4,9 +4,11 @@ include_once 'controller.php';
 ?>
 
 <?php
+
     function calc_average_grade(){
         return NULL;
     }
+
     function get_user($username, $conn){
 		///-- Returns an instance of a given user  --///
 		$query = "SELECT * FROM Member WHERE e_mail='$username'";
@@ -15,7 +17,7 @@ include_once 'controller.php';
 		$row = mysqli_fetch_assoc($result);
 
 		// Parse results into associative array so it can be returned on function call.
-		$user['groups_id'] = $row['groups_id'];
+		$user['groups_id'] = $row['Groups_id'];
 		$user['e_mail'] = $row['e_mail'];
 		$user['uid'] = $row['uid'];
 		$user['role'] = $row['role'];
@@ -30,7 +32,6 @@ include_once 'controller.php';
 		$result = mysqli_query($conn, $query);
 
 		$row = mysqli_fetch_assoc($result);
-		echo $row['passw'];
 		return $row['passw'];
 	}
 
@@ -117,7 +118,7 @@ include_once 'controller.php';
 		mysqli_close($conn);
 
 		return $value;
-		}
+	}
 
 	function login_student($username, $form_password, $conn){
 		//-- Returns true if hashed password matches form data --//

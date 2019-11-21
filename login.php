@@ -29,7 +29,6 @@
 			//-- IF Tutor is selectd -- //
 			if (login_tutor($username, $user_pass, $conn) == FALSE){
 				$login_error = 'Wrong username/password entered for Tutor';
-
 			} else {
 				$_SESSION[ 'username' ] = $username;
 				sleep(1);

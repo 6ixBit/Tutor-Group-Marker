@@ -1,6 +1,6 @@
 <?php
       session_start();                    //Individual profile page which will be accessed by the tutor upon click on a group
-      include 'templates/tutor_nav.html';  // and then upon click of user listed in that group
+      include 'templates/loggedIn_nav.html';  // and then upon click of user listed in that group
       //Profile page will consist of user id, overall grade for student
       // && Individual grades given by peers in group with image, text & rating 
 ?>                        
