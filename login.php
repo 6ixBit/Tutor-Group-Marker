@@ -32,7 +32,7 @@
 
 			} else {
 				$_SESSION[ 'username' ] = $username;
-				sleep(2);
+				sleep(1);
 				header( 'Location: tutor.php' );
 			}
 			}

@@ -8,6 +8,7 @@
     <head>
         <title>Student peer reviews</title>
     </head>
+
     <body>
         <div class='user_peer'>
 
@@ -92,20 +93,26 @@
                 <textarea id="reviewText" placeholder='Enter a review for your peer' rows="5" cols='50'></textarea>
             </div>
            <br>
+
             <div class="image_upload_form">
                 <label for="Upload_image">Upload an image:</label>
                 <input type="file" id="Upload_image">
             </div> <br> <br>
+
             <input type="submit" value="Upload Image" class='upload_img' name="submit">
         </fieldset>
+
         <div class='rating'>
             Rating: <select name='user_rating'>
-                <option>0</option>
-                <option>1</option>
-                <option>2</option>
-                <option>3</option>
+                <option  value='0'>0</option>
+                <option  value='1'>1</option>
+                <option  value='2'>2</option>
+                <option  value='3'>3</option>
+				<option  value='4'>4</option>
+				<option  value='5'>5</option>
             </select>
         </div>
+
         <button name='load_review' class='load_review'>Load selected user</button>
         <button type='submit' name='save' class='save_button'>Save temporarily</button> 
         <button type='submit' name='submit_review' class='finalise_button'>Submit for marking</button> 
