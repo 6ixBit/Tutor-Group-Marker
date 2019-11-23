@@ -64,14 +64,24 @@ include_once 'controller.php';
 		return $row['no_of_users'];
 	}
 
-	function get_group_members($user, $group_id, $conn){
+	function get_group_members($user_email, $group_id, $conn){
 		///-- Returns e-mails of users who are in the same group --//
 		///-- $user = username of user requesting group members
 		///-- $group_id = group to be checked
 
+		$query = "SELECT e_mail FROM Member WHERE groups_id = '$group_id' AND NOT e_mail = '$user_email'";
+		$result = mysqli_query($conn, $query);
 
+		$group_members = array();
 
-
+		if (!mysqli_num_rows($result) > 0) {
+			echo "No results found!";
+		} else {
+			while($row = mysqli_fetch_assoc($result)){
+				array_push($group_members, $row['e_mail']);
+			}
+		}
+		return $group_members;
 	}
 
 	function get_evaluations_count($group_name, $conn){ 
@@ -158,4 +168,5 @@ include_once 'controller.php';
 	//register_student("admin@gre.ac.uk", encrypt_pass("hsalsldld"), "05045465", 2, $conn);
 	//get_user("test@gre.ac.uk", $conn);
 	//login_tutor('000000000', '000000000', $conn);
+	//get_group_members("admin@gre.ac.uk", 2, $conn);
 ?>

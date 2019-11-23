@@ -7,8 +7,7 @@
 ?>
 
 <?php
-	$user = get_user($_SESSION['username'], $conn);
-	print_r($user);
+	$user = get_user($_SESSION['username'], $conn);  //-- Grab user from session to make db queries with.
 ?>
 
 <html>
@@ -23,9 +22,13 @@
 
         <div class='select_user'>
 			Select a user to review: <select value='users_in_group'>
-				<option value='user_1'>User 1</option>
-				<option value='user_2'>User 2</option>
-				<option value='user_3'>User 3</option>
+			<?php 
+			$group_members = get_group_members($user['e_mail'], $user['groups_id'], $conn);
+
+			foreach($group_members as $member){ ?>
+				<option> <?php echo $member;?> </option>
+			<?php } ?>
+
 			</select>
         </div>
        
