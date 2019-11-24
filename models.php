@@ -18,6 +18,7 @@ include_once 'controller.php';
 
 		// Parse results into associative array so it can be returned on function call.
 		$user['groups_id'] = $row['Groups_id'];
+		$user['db_id'] = $row['Member_id'];
 		$user['e_mail'] = $row['e_mail'];
 		$user['uid'] = $row['uid'];
 		$user['role'] = $row['role'];
@@ -164,6 +165,23 @@ include_once 'controller.php';
 			return TRUE;
 		}
 	}
+
+	function insert_peer_review($conn){
+		//-- Insert peer review into database --//
+		$current_user = get_user($_SESSION['username'], $conn);
+
+		//-- Parsing data to be inserted --//
+		$current_user_id = $current_user['db_id'];
+		$group_id = $current_user['groups_id'];
+		$user_rating = $_POST['user_rating'];
+		$review_text = $_POST['peer_text'];
+		$user_reviewed = $_POST['users_in_group'];
+		$img = convert_image();
+
+		echo "User of ID ($current_user_id) and group ($group_id) said ('$review_text') about ($user_reviewed) and rated him $user_rating out of 10";
+
+	}
+
 
 	//register_student("admin@gre.ac.uk", encrypt_pass("hsalsldld"), "05045465", 2, $conn);
 	//get_user("test@gre.ac.uk", $conn);
