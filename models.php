@@ -141,6 +141,28 @@ include_once 'controller.php';
 		return $value;
 	}
 
+	function get_groups_info($conn){
+		///-- Returns names, no of users and evaluations of all groups --///
+		$query = 'SELECT * FROM Groups';
+		$result = mysqli_query($conn, $query);
+
+		$value = array();
+
+		if (mysqli_num_rows($result) > 0) {
+			while($row = mysqli_fetch_assoc($result)){
+		
+				$res['group_name'] = $row["group_name"];
+				$res['no_of_users'] = $row["no_of_users"];
+				$res['no_of_evaluations'] = $row['no_of_evaluations'];
+			}
+		} else {
+			echo "No results";
+		}
+		mysqli_close($conn);
+
+		print_r($res);
+	}
+
 	function login_student($username, $form_password, $conn){
 		//-- Returns true if hashed password matches form data --//
 		$student_passw = get_user_passw($username, $conn);
@@ -166,25 +188,33 @@ include_once 'controller.php';
 		}
 	}
 
-	function insert_peer_review($conn){
+	function insert_temp_review($conn) {
 		//-- Insert peer review into database --//
 		$current_user = get_user($_SESSION['username'], $conn);
 
 		//-- Parsing data to be inserted --//
-		$current_user_id = $current_user['db_id'];
-		$group_id = $current_user['groups_id'];
-		$user_rating = $_POST['user_rating'];
+		$current_user_id = intval($current_user['db_id']);
+		$group_id = intval($current_user['groups_id']);
+		$user_rating = intval($_POST['user_rating']);
 		$review_text = $_POST['peer_text'];
 		$user_reviewed = $_POST['users_in_group'];
 		$img = convert_image();
+		$finalised = 0;
 
-		echo "User of ID ($current_user_id) and group ($group_id) said ('$review_text') about ($user_reviewed) and rated him $user_rating out of 10";
+		$query = "INSERT INTO Rating (Groups_id, Member_id, verdict, description, review_image, user_reviewed, finalised) VALUES
+		('$group_id', '$current_user_id', '$user_rating', '$review_text', '$img', '$user_reviewed', '$finalised')";
 
+		$result = mysqli_query($conn, $query);
+
+		if (!mysqli_query($result)) {
+			echo mysqli_error($conn);
+		} else {
+			echo "Insert completed succesfully";
+		}
 	}
 
+	//$ans = get_groups_info($conn); //--Wont work as returned value is array and not associative array--//
+	//get_groups_info($conn);
 
 	//register_student("admin@gre.ac.uk", encrypt_pass("hsalsldld"), "05045465", 2, $conn);
-	//get_user("test@gre.ac.uk", $conn);
-	//login_tutor('000000000', '000000000', $conn);
-	//get_group_members("admin@gre.ac.uk", 2, $conn);
 ?>

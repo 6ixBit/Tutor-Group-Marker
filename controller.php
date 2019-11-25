@@ -21,19 +21,19 @@
 	}
 
 	function convert_image(){
-		///--Converts image into binary and returns it --///
+	///--Converts image into binary and returns it --///
 		$verify_img = getimagesize($_FILES['img_form']['tmp_name']);
-		if (!verify_img) {
+
+		if (verify_img == false) {
 			//-- IF no image size is stored
 			echo "Error when verifying image";
 		} else {
 			//-- Store content of image as binary 
-			$img = $_FILES['img_form']['tmp_name'];
-			$img_data = addslashes(file_get_contents($img));
-
-			return $img_data;
+			$image = addslashes($_FILES['img_form']['tmp_name']);
+			$image = file_get_contents($image);
+			$image = base64_encode($image);
 		}
-
+		return $image;
 	}
 
 ?>

@@ -12,7 +12,11 @@
 	$user = get_user($_SESSION['username'], $conn);  //-- Grab user from session to make db queries with.
 
 	if (isset($_POST['save_review'])){
-		insert_peer_review($conn);
+		insert_temp_review($conn);
+	}
+
+	if (isset($_POST['upload_img'])) {
+		convert_image();
 	}
 
 ?>
@@ -27,7 +31,7 @@
         
 		<?php echo "<h1>Your Group: ".$user['groups_id']."</h1>"; ?>
 
-            <form action='peer_review.php' method='POST'>
+            <form action='peer_review.php' method='POST' enctype="multipart/form-data">
 
 			<div class='select_user'>
 				Select a peer to review:
@@ -42,20 +46,20 @@
 				</select>
             </div>
 
-            <fieldset> 
+       <fieldset> 
 
-            <div class="form-group">
-                <label for="exampleTextarea" class='review_label'> Enter your review:</label>
+                <label for="review_Text" class='review_label'> Enter your review:</label>
                    
-                <textarea id="review_Text" name ='peer_text' placeholder='Enter a review for your peer' rows="5" cols='50'></textarea>
-            </div><br>
+                <textarea id="review_Text" class='reviewText' name='peer_text' placeholder='Enter a review for your peer' rows="5" cols='50'></textarea>
+                <br>
+
 
             <div class="image_upload_form">
                 <label for="Upload_image">Upload an image:</label>
-                <input type="file" id="Upload_image" name='img_form'>
+                <input type="file" id="Upload_image" name='img_form'>	
             </div> <br> <br>
+			<input type="submit" value="Upload Image" class='upload_img' name="upload_img">
 
-            <input type="submit" value="Upload Image" class='upload_img' name="submit">
         </fieldset>
 
         <div class='rating'>
@@ -76,15 +80,14 @@
         </div>
 
         <button name='load_review' class='load_review'>Load selected user</button>
+
         <button type='submit' name='save_review' class='save_button'>Save temporarily</button> 
         <button type='submit' name='submit_review' class='finalise_button'>Submit for marking</button> 
             </form>
-
        </div>
-
     </body>
 
-	 <style> #reviewText {
+	 <style>        .reviewText {
                     position: absolute;
                     left: 43%;
                     top: 10%;
