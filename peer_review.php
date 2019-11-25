@@ -9,16 +9,36 @@
 ?>
 
 <?php
-	$user = get_user($_SESSION['username'], $conn);  //-- Grab user from session to make db queries with.
+    //- Grab user from session to make db queries with.
+	$user = get_user($_SESSION['username'], $conn);  
 
 	if (isset($_POST['save_review'])){
+		// IF user saves review
 		insert_temp_review($conn);
 	}
 
-	if (isset($_POST['upload_img'])) {
-		convert_image();
-	}
+	if (isset($_POST['load_review'])) {
+		// Grab selected user from drop down list
+		$selected_user = $_POST['users_in_group'];
 
+		$loaded_review = load_review($user['db_id'], $selected_user, $conn);
+
+		if (!$loaded_review['rating']){
+			echo "<div class='alert alert-danger alert-dismissible'>
+				 <button type='button' class='close' data-dismiss='alert'>&times;</button>
+				 Sorry, but a review from you for the user <strong> {$selected_user} </strong> does not exist! 
+				 </div>";
+		} else {
+
+			echo "<div class='card' style='width: 20rem;'>
+				<img class='card-img-top' src=data:image;base64,"."{$loaded_review['image']} alt='Card image cap' style='height: 150px;'>
+				<div class='card-body'>
+				<h5 class='card-title'>Student: {$loaded_review['user_reviewed']} </h5>
+				<p class='card-text'> {$loaded_review['description']} </p>
+				</div>
+			</div><br><br>";
+		}
+	}
 ?>
 
 <html>
@@ -42,23 +62,19 @@
 				foreach($group_members as $member){ ?>
 					<option> <?php echo $member;?> </option>
 				<?php } ?>
-
 				</select>
             </div>
 
        <fieldset> 
-
-                <label for="review_Text" class='review_label'> Enter your review:</label>
+            <label for="review_Text" class='review_label'> Enter your review:</label>
                    
-                <textarea id="review_Text" class='reviewText' name='peer_text' placeholder='Enter a review for your peer' rows="5" cols='50'></textarea>
-                <br>
+            <textarea id="review_Text" class='reviewText' name='peer_text' placeholder='Enter a review for your peer' rows="7" cols='48'></textarea>
+            <br>
 
-
-            <div class="image_upload_form">
+			<div class="image_upload_form">
                 <label for="Upload_image">Upload an image:</label>
                 <input type="file" id="Upload_image" name='img_form'>	
             </div> <br> <br>
-			<input type="submit" value="Upload Image" class='upload_img' name="upload_img">
 
         </fieldset>
 
@@ -70,24 +86,25 @@
                 <option  value='3'>3</option>
 				<option  value='4'>4</option>
 				<option  value='5'>5</option>
-				<option  value='5'>6</option>
-				<option  value='5'>7</option>
-				<option  value='5'>8</option>
-				<option  value='5'>9</option>
-				<option  value='5'>10</option>
+				<option  value='6'>6</option>
+				<option  value='7'>7</option>
+				<option  value='8'>8</option>
+				<option  value='9'>9</option>
+				<option  value='10'>10</option>
 
             </select>
         </div>
 
-        <button name='load_review' class='load_review'>Load selected user</button>
-
-        <button type='submit' name='save_review' class='save_button'>Save temporarily</button> 
-        <button type='submit' name='submit_review' class='finalise_button'>Submit for marking</button> 
-            </form>
+			<button name='load_review' class='load_review'>Load selected user</button>
+			<button type='submit' name='save_review' class='save_button'>Save temporarily</button> 
+			<button type='submit' name='submit_review' class='finalise_button'>Submit for marking</button> 
+         </form>
        </div>
+
     </body>
 
-	 <style>        .reviewText {
+	 <style>  
+					.reviewText {
                     position: absolute;
                     left: 43%;
                     top: 10%;
@@ -108,7 +125,7 @@
                     .image_upload_form {
                     position: absolute;
                     left: 43%;
-                    top: 27%;
+                    top: 33%;
                     width: 15%;}
                  
                     .select_user {
@@ -142,5 +159,9 @@
                     position: absolute;
                     left: 53%;
                     top: 48%;}
+
+					.card {
+                    left: 2%;
+					top: 50%;}
      </style>
 </html>

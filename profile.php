@@ -30,16 +30,14 @@
   <div class="card-body">
     <h5 class="card-title">Student ID: 00054840</h5>
     <p class="card-text">I did not like working with this user because they were always late!</p>
-   <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
   </div>
 </div><br><br>
 
 <div class="card" style="width: 18rem;">
   <img class="card-img-top" src="..." alt="Card image cap" style="height: 150px;>
   <div class="card-body">
-    <h5 class="card-title">Student ID: 00054840</h5>
+    <h5 class="card-title">Student: 00054840</h5>
     <p class="card-text">I did not like working with this user because they were always late!</p>
-   <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
   </div>
 </div><br><br>
 

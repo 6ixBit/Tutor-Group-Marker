@@ -213,8 +213,45 @@ include_once 'controller.php';
 		}
 	}
 
+	function load_review($user_id, $peer_email, $conn){
+		//-- Loads review for user based on value in drop down list (Consits of group memebrers) --//
+		// $user_id : Currently signed in user who made review
+		// $peer_email : Email address of user being reviewed 
+
+		$query = "SELECT description, verdict, review_image, user_reviewed FROM Rating WHERE Member_id=$user_id AND user_reviewed='$peer_email'";
+
+		$result = mysqli_query($conn, $query);
+
+		$row = mysqli_fetch_assoc($result);
+
+		$review_info['description'] = $row['description'];
+		$review_info['rating'] = $row['verdict'];
+		$review_info['image'] = $row['review_image'];
+		$review_info['user_reviewed'] = $row['user_reviewed'];
+
+		if (!$result){
+			return False;
+		} else {
+			return $review_info;
+		}
+	}
+
+	function finalise_review($conn){
+		//-- Will UPDATE review if it already exists or INSERT if it doesn't and set finalised to 1 
+	}
+
+	function delete_review($conn){
+		//-- Will delete review for selected user in drop down if it exists, if it doesn't then will return null
+	}
+
 	//$ans = get_groups_info($conn); //--Wont work as returned value is array and not associative array--//
-	//get_groups_info($conn);
 
 	//register_student("admin@gre.ac.uk", encrypt_pass("hsalsldld"), "05045465", 2, $conn);
+
+	//$rev = load_review(4, "weight@gre.ac.uk", $conn);
+	//print_r($rev);
+
+	//String to open image on page
+	//echo "<img height='300' width='300' src=data:image;base64,"."{$rev['image']}".">";
+	
 ?>
