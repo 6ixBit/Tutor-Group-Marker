@@ -6,37 +6,56 @@
 	include_once 'controller.php';
 	
     session_start();  
+
 ?>
 
 <?php
+	//- Get selected user from drop down
+	$selected_user = $_POST['users_in_group'];
+
     //- Grab user from session to make db queries with.
 	$user = get_user($_SESSION['username'], $conn);  
 
-	if (isset($_POST['save_review'])){
+	if (isset($_POST['save_review'])) {
 		// IF user saves review
 		insert_temp_review($conn);
 	}
 
+	if (isset($_POST['delete_review'])) {
+		// IF user deletes review
+		delete_review(intval($user['db_id']), $selected_user, $conn);
+	}
+
 	if (isset($_POST['load_review'])) {
 		// Grab selected user from drop down list
-		$selected_user = $_POST['users_in_group'];
-
 		$loaded_review = load_review($user['db_id'], $selected_user, $conn);
 
 		if (!$loaded_review['rating']){
+			//-- IF review is NOT found --//
 			echo "<div class='alert alert-danger alert-dismissible'>
 				 <button type='button' class='close' data-dismiss='alert'>&times;</button>
 				 Sorry, but a review from you for the user <strong> {$selected_user} </strong> does not exist! 
 				 </div>";
 		} else {
-
-			echo "<div class='card' style='width: 20rem;'>
+			//--IF review for selected user is found --//
+			echo "<div class='review_card'>
+			<h3>Your Review </h3>
+			<div class='card' style='width: 20rem;'>
 				<img class='card-img-top' src=data:image;base64,"."{$loaded_review['image']} alt='Card image cap' style='height: 150px;'>
+
 				<div class='card-body'>
-				<h5 class='card-title'>Student: {$loaded_review['user_reviewed']} </h5>
-				<p class='card-text'> {$loaded_review['description']} </p>
+					<h5 class='card-title'><u>Email:</u> {$loaded_review['user_reviewed']} </h5>
+					<h5><u>Rating:</u> <strong>{$loaded_review['rating']} </strong></h5> <br>
+					<p class='card-text'> {$loaded_review['description']} </p>
 				</div>
-			</div><br><br>";
+	
+				<div class='btn btn-danger'>
+					<form action='peer_review.php' method='POST'>
+						<button name='delete_review' type='submit' class='btn btn-danger'>Delete review</button>
+				    </form>
+				</div>
+			</div>
+		</div>";
 		}
 	}
 ?>
@@ -49,7 +68,7 @@
     <body>
        <div class='user_peer'>
         
-		<?php echo "<h1>Your Group: ".$user['groups_id']."</h1>"; ?>
+		<?php echo "<h1 class='group_title'>Your Group: ".$user['groups_id']."</h1>"; ?>
 
             <form action='peer_review.php' method='POST' enctype="multipart/form-data">
 
@@ -160,8 +179,15 @@
                     left: 53%;
                     top: 48%;}
 
-					.card {
+					.review_card {
+					position: absolute;
                     left: 2%;
-					top: 50%;}
+					top: 42%;}
+
+					.group_title {
+					position: absolute;
+                    left: 1%;
+                    top: 6%;
+					}
      </style>
 </html>

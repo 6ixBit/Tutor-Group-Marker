@@ -5,6 +5,8 @@ include_once 'controller.php';
 
 <?php
 
+	mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
+
     function calc_average_grade(){
         return NULL;
     }
@@ -236,22 +238,33 @@ include_once 'controller.php';
 		}
 	}
 
+	function update_review($conn){
+	}
+
 	function finalise_review($conn){
 		//-- Will UPDATE review if it already exists or INSERT if it doesn't and set finalised to 1 
 	}
 
-	function delete_review($conn){
+	function delete_review($user_id, $peer_email, $conn){
 		//-- Will delete review for selected user in drop down if it exists, if it doesn't then will return null
+		$query = "DELETE FROM Rating WHERE Member_id={$user_id} AND user_reviewed='$peer_email'";
+
+		$result = mysqli_query($conn, $query);
+
+		if (!mysqli_query($result)) {
+			echo mysqli_error($conn);
+		} else {
+			echo "Record was deleted successfully";
+		}
 	}
 
 	//$ans = get_groups_info($conn); //--Wont work as returned value is array and not associative array--//
 
 	//register_student("admin@gre.ac.uk", encrypt_pass("hsalsldld"), "05045465", 2, $conn);
 
-	//$rev = load_review(4, "weight@gre.ac.uk", $conn);
-	//print_r($rev);
 
 	//String to open image on page
 	//echo "<img height='300' width='300' src=data:image;base64,"."{$rev['image']}".">";
+	delete_review(4, "weight@gre.ac.uk", $conn); //this works LMAO
 	
 ?>
