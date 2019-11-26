@@ -149,21 +149,46 @@ include_once 'controller.php';
 		$query = 'SELECT * FROM Groups';
 		$result = mysqli_query($conn, $query);
 
-		$value = array();
-
 		if (mysqli_num_rows($result) > 0) {
 			while($row = mysqli_fetch_assoc($result)){
-		
-				$res['group_name'] = $row["group_name"];
-				$res['no_of_users'] = $row["no_of_users"];
-				$res['no_of_evaluations'] = $row['no_of_evaluations'];
+
+				$res[] = array(
+				"group_name" => $row["group_name"],
+				"no_of_users" => $row["no_of_users"],
+				"no_of_evaluations" => $row['no_of_evaluations'],
+                 );
 			}
 		} else {
 			echo "No results";
 		}
 		mysqli_close($conn);
 
-		print_r($res);
+		return $res;
+	}
+
+	function get_all_reviews($username, $conn){
+		//-- Returns the reviews for $username passed --//
+		$query = "SELECT description, verdict, review_image, user_reviewed FROM Rating WHERE user_reviewed='$username'";
+
+		$result = mysqli_query($conn, $query);
+
+		if (mysqli_num_rows($result) > 0) {
+			while($row = mysqli_fetch_assoc($result)){
+
+				$res[] = array(
+				"description" => $row["description"],
+				"rating" => $row["verdict"],
+				"user_reviewed" => $row['user_reviewed'],
+				"review_image" => $row['review_image'],
+				"review_by" => $row['Member_id']
+                 );
+			}
+		} else {
+			echo "No results";
+		}
+		mysqli_close($conn);
+
+		return $res;
 	}
 
 	function login_student($username, $form_password, $conn){
@@ -284,7 +309,7 @@ include_once 'controller.php';
 	}
 	
 	//del_review($conn);
-	//$ans = get_groups_info($conn); //--Wont work as returned value is array and not associative array--//
+	//get_groups_info($conn); //--Wont work as returned value is array and not associative array--//
 
 	//register_student("admin@gre.ac.uk", encrypt_pass("hsalsldld"), "05045465", 2, $conn);
 
@@ -292,5 +317,5 @@ include_once 'controller.php';
 	//echo "<img height='300' width='300' src=data:image;base64,"."{$rev['image']}".">";
 
 	//delete_review(4, $conn); //this works LMAO
-	
+	//get_all_reviews("weight@gre.ac.uk", $conn);
 ?>

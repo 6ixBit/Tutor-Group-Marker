@@ -1,6 +1,9 @@
 <?php
     session_start();                     //Home page for tutor will consists of rows of groups with a button to view
+
     include 'templates/tutor_nav.html';  //Group memebers
+	include 'config.php';
+	include_once 'models.php';
 ?>
 
 <html>
@@ -15,30 +18,40 @@
 <table class="table table-hover">
   <thead>
     <tr>
-      <th scope="col">Group name</th>
-      <th scope="col">No. of Group members</th>
-      <th scope="col">No. of Evaluations</th>
-      <th scope="col">Completed</th>
+      <th scope="col"><strong style='color:red;'><u>Group name</u></strong></th>
+      <th scope="col"><strong style='color:red;'><u>No. of Users<</u></strong></th>
+      <th scope="col"><strong style='color:red;'><u>No. of Evaluations</u></strong></th>
+      <th scope="col"><strong style='color:red;'><u>Completed?</u></strong></th>
       <th scope="col"></th>
       <th scope="col"></th>
     </tr>
   </thead>
-  <tbody>
-    <tr class="table-active">
-      <th scope="row"><a href='' onclick=''>Group 1</a></th>
-      <td>6</td>
-      <td>6</td>
-      <td>Yes</td>
-      
-      <td><button name="send_results" type="submit" class="btn btn-primary">Send Results</button></td>
-      <td><button name="send_reminder" type="submit" class="btn btn-primary">Send Reminder</button></td>
 
-    </tr>
+  <tbody>
+	  <?php 
+	  $group_data = get_groups_info($conn);
+
+	  foreach ($group_data as $group) {
+		echo "<tr class='table-active'>";
+			echo "<th scope='row'>".$group['group_name']."</th>";
+			echo "<td>".$group['no_of_users']."</td>";
+			echo "<td>".$group['no_of_evaluations']."</td>";
+			echo "<td>Yes</td>";
+			echo "<td><button name='send_results' type='submit' class='btn btn-primary'>Send Results</button></td>";
+			echo "<td><button name='send_reminder' type='submit' class='btn btn-primary'>Send Reminder</button></td>";
+		echo "</tr>";
+	  }
+	  ?>
+      <!--<th scope="row"><a href='' onclick=''>Group 1</a></th>
+      <td>6</td>
+      <td>6</td>
+      <td>Yes</td>-->
   </tbody>
 </table> <br> <br>
 
 <form method="POST"> <!-- Dependent on input, redirect user to profile page and fill with user info based on selected item from form-->
 <div class="form-group">
+
     Select a group:
     <select class="select-group" onchange="">
       <option value="1">Group 1</option>
@@ -57,6 +70,7 @@
   </div>
 
 </form>
+
 </body>
 </html>
 
