@@ -1,11 +1,12 @@
 <?php
 include 'config.php';
 include_once 'controller.php';
+
+//error_reporting(E_ALL);
+//ini_set('display_errors', 1);
 ?>
 
 <?php
-
-	mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 
     function calc_average_grade(){
         return NULL;
@@ -245,26 +246,51 @@ include_once 'controller.php';
 		//-- Will UPDATE review if it already exists or INSERT if it doesn't and set finalised to 1 
 	}
 
-	function delete_review($user_id, $peer_email, $conn){
-		//-- Will delete review for selected user in drop down if it exists, if it doesn't then will return null
-		$query = "DELETE FROM Rating WHERE Member_id={$user_id} AND user_reviewed='$peer_email'";
+	 //-- FIX NEEDED --//
+	function delete_review($user_id, $conn){
+		//-- Will delete review for selected user in drop down if it exists, if it doesn't then will return null --//
+		$user_reviewed = $_POST['users_in_group'];
+
+		$query = "DELETE FROM Rating WHERE Member_id={$user_id} AND user_reviewed='$user_reviewed'";
 
 		$result = mysqli_query($conn, $query);
 
-		if (!mysqli_query($result)) {
+		if (!mysqli_query($conn, $query)) {
 			echo mysqli_error($conn);
 		} else {
 			echo "Record was deleted successfully";
+			echo $user_reviewed;
 		}
 	}
 
+	function del_review($conn) {
+		//-- Insert peer review into database --//
+		$current_user = get_user($_SESSION['username'], $conn);
+
+		//-- Parsing data to be inserted --//
+		$current_user_id = intval($current_user['db_id']);
+		$user_reviewed = $_POST['users_in_group'];
+
+		$query = "DELETE FROM Rating WHERE Member_id={$current_user_id} AND user_reviewed='$user_reviewed'";
+
+		$result = mysqli_query($conn, $query);
+
+		if (!mysqli_query($conn, $query)) {
+			echo mysqli_error($conn);
+		} else {
+			echo $user_reviewed;
+			echo "delete completed succesfully";
+		}
+	}
+	
+	//del_review($conn);
 	//$ans = get_groups_info($conn); //--Wont work as returned value is array and not associative array--//
 
 	//register_student("admin@gre.ac.uk", encrypt_pass("hsalsldld"), "05045465", 2, $conn);
 
-
 	//String to open image on page
 	//echo "<img height='300' width='300' src=data:image;base64,"."{$rev['image']}".">";
-	delete_review(4, "weight@gre.ac.uk", $conn); //this works LMAO
+
+	//delete_review(4, $conn); //this works LMAO
 	
 ?>

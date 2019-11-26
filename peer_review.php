@@ -7,31 +7,52 @@
 	
     session_start();  
 
+	//error_reporting(E_ALL);
+	//ini_set('display_errors', 1);
 ?>
 
 <?php
-	//- Get selected user from drop down
-	$selected_user = $_POST['users_in_group'];
-
     //- Grab user from session to make db queries with.
 	$user = get_user($_SESSION['username'], $conn);  
 
 	if (isset($_POST['save_review'])) {
-		// IF user saves review
-		insert_temp_review($conn);
+		$selected_user = $_POST['users_in_group'];
+
+		//-- Load review first to see if it already exists, if it does then prevent the user from inserting another one
+		$loaded_review = load_review($user['db_id'], $selected_user, $conn);
+
+		if (!$loaded_review['rating']) {
+			//-- IF review doesn't exist for user then insert it --//
+			insert_temp_review($conn);
+		} else {
+			//-- IF review does exist then throw an error
+			$exists_error = "Sorry but a review for this user already exists, please load it.";
+		}
 	}
 
-	if (isset($_POST['delete_review'])) {
+	if (isset($_POST['delete_review'])) { // FIX NEEDED
+		//$select_user = $_POST['users_in_group']; //line throwing error
 		// IF user deletes review
-		delete_review(intval($user['db_id']), $selected_user, $conn);
+		//delete_review($user['db_id'], $selected_user, $conn);
+
+		if (isset($_POST['users_in_group'])) {
+			echo "Group value is set";
+		} else {
+			echo "User being reviewed is not set";
+			echo $_POST['member'];
+		}
+		
+		//del_review($conn);
 	}
 
 	if (isset($_POST['load_review'])) {
+		$selected_user = $_POST['users_in_group'];
 		// Grab selected user from drop down list
 		$loaded_review = load_review($user['db_id'], $selected_user, $conn);
 
 		if (!$loaded_review['rating']){
 			//-- IF review is NOT found --//
+
 			echo "<div class='alert alert-danger alert-dismissible'>
 				 <button type='button' class='close' data-dismiss='alert'>&times;</button>
 				 Sorry, but a review from you for the user <strong> {$selected_user} </strong> does not exist! 
@@ -74,12 +95,12 @@
 
 			<div class='select_user'>
 				Select a peer to review:
-				<select name='users_in_group'>
+				<select name="users_in_group">
 				<?php 
 				$group_members = get_group_members($user['e_mail'], $user['groups_id'], $conn);
 
 				foreach($group_members as $member){ ?>
-					<option> <?php echo $member;?> </option>
+					<option name='member'> <?php echo $member;?> </option>
 				<?php } ?>
 				</select>
             </div>
@@ -117,6 +138,7 @@
 			<button name='load_review' class='load_review'>Load selected user</button>
 			<button type='submit' name='save_review' class='save_button'>Save temporarily</button> 
 			<button type='submit' name='submit_review' class='finalise_button'>Submit for marking</button> 
+			<?php if ( $exists_error ) { echo "<p class='insert_error' style='color:red;'><strong>".$exists_error."</strong></p>"; }  ?>
          </form>
        </div>
 
@@ -178,6 +200,12 @@
                     position: absolute;
                     left: 53%;
                     top: 48%;}
+
+					.insert_error {
+					position: absolute;
+                    left: 40%;
+                    top: 55%;
+					}
 
 					.review_card {
 					position: absolute;
