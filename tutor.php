@@ -2,7 +2,7 @@
     session_start();                     //Home page for tutor will consists of rows of groups with a button to view
 
     include 'templates/tutor_nav.html';  //Group memebers
-	include 'config.php';
+	include "config.php";
 	include_once 'models.php';
 ?>
 
@@ -51,34 +51,38 @@
   </tbody>
 </table> <br> <br>
 
+<div class="select-group-user">
 <form method="POST"> <!-- Dependent on input, redirect user to profile page and fill with user info based on selected item from form-->
-<div class="form-group">
 
-    Select a group:
-    <select class="select-group" onchange="">
-      <option value="1">Group 1</option>
-      <option value="2">Group 2</option>
-      <option value="3">Group 3</option>
-    </select>
-  </div>
+	Select a group:
+		<select name="groups" onchange="" class="select-group">  <!-- Make JS database call on change of value -->
+			<?php 
+			$conn = mysqli_connect($host, $user, $password, $db_name);
+			$groups = get_all_groups($conn);
+			
+			foreach ($groups as $group){ ?>
+				<option value="<?php echo $group; ?>"> <?php echo $group; ?> </option>
+			<?php } ?>
+		</select> <br>
 
     Select a student profile from that group:
   <select class="select-student" onchange="">
       <option value="1">Student 1</option>
       <option value="2">Student 2</option>
       <option value="3">Student 3</option>
-    </select> <br> <br>
-    <button type="submit" name="submit">View profile</button>
-  </div>
+  </select> <br> 
+    <button type="submit" name="view_profile">View profile</button>
 
 </form>
+</div>
 
 </body>
 </html>
 
-   <!-- If numb of evals < 6 then show it as red
-    <tr class="table-danger">
-      <th scope="row">Danger</th>
-      <td>Column content</td>
-      <td>Column content</td>
-    </tr> -->
+<style>
+	.select-group-user {
+		position: absolute;
+		left: 20%;
+	}
+</style>
+
