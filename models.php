@@ -88,6 +88,31 @@ include_once 'controller.php';
 		return $group_members;
 	}
 
+	function get_all_group_members(int $group_id){
+		//-- Returns the members of a group passed as a param --//
+		$host = "mysql.cms.gre.ac.uk";
+		$user = "mn7754c";
+		$password = "root123";
+		$db_name = "mdb_mn7754c";
+
+		$conn = mysqli_connect($host, $user, $password, $db_name);
+
+		$query = "SELECT e_mail from Member WHERE groups_id= '$group_id'";
+		$result = mysqli_query($conn, $query);
+
+		$group_members = array();
+
+		if (!mysqli_num_rows($result) > 0) {
+			echo "No results found!";
+			echo mysqli_error($conn);
+		} else {
+			while($row = mysqli_fetch_assoc($result)){
+				array_push($group_members, $row['e_mail']);
+			}
+		}
+		return $group_members;
+	}
+
 	function get_evaluations_count($group_name, $conn){ 
 		///-- Returns number of evaluations in a group --///
 		$query = "SELECT no_of_evaluations FROM Groups WHERE group_name='$group_name'";
@@ -317,5 +342,6 @@ include_once 'controller.php';
 	//echo "<img height='300' width='300' src=data:image;base64,"."{$rev['image']}".">";
 
 	//delete_review(4, $conn); //this works LMAO
-	//get_all_reviews("weight@gre.ac.uk", $conn);
+	//print_r(get_all_group_members(2, $conn));
+	//print_r(get_all_group_members(2));
 ?>
