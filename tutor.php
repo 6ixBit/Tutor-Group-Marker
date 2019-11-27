@@ -11,7 +11,7 @@
 		
 		$students = get_all_group_members($grp_id);
 
-		echo "<div class='select_user'>
+		echo "<form method='POST' action='tutor.php'><div class='select_user'>
 
 				View a profile:
 				<select name='students'>
@@ -19,7 +19,15 @@
 		foreach($students as $student) {
 			echo "<option name='{$student}'>".$student."</option>";
 		}
-		echo "</select> </div>";	
+		echo "</select>";
+		echo "<input name='view_profile' type='submit'> </div></form>";
+	}
+
+	if(isset($_POST['view_profile'])) {
+	//-- IF tutor select a profile to view
+		$_SESSION['user_profile'] = $_POST['students'];
+		echo $_SESSION['user_profile'];
+		header( 'Location: profile.php' );
 	}
 
 ?>
@@ -84,22 +92,7 @@
 				<option value="<?php echo $group; ?>"> <?php echo $group; ?> </option>
 			<?php } ?>
 		</select>
-		<button type="submit" name="view_students">Show students <br>
-
-
-
-
-
-
-
-
-   <!-- Select a student profile from that group:
-  <select class="select-student" onchange="">
-      <option value="1">Student 1</option>
-      <option value="2">Student 2</option>
-      <option value="3">Student 3</option>
-  </select> <br> 
-    <button type="submit" name="view_profile">View profile</button> -->
+		<button type="submit" name="view_students">Show students </button><br>
 
 </form>
 </div>

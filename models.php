@@ -209,7 +209,7 @@ include_once 'controller.php';
                  );
 			}
 		} else {
-			echo "No results";
+			echo "No reviews for this user found!";
 		}
 		mysqli_close($conn);
 

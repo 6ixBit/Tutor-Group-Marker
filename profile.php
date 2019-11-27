@@ -7,7 +7,7 @@
 ?>     
 
 <?php
-	$user = get_user("boogie@yahoo.co.uk", $conn);
+	$user = get_user($_SESSION['user_profile'], $conn);
 ?>
 
 <html>
@@ -33,7 +33,7 @@
 <!-- numb of cards = numb of users who have reviewed this users -->
 
 <?php
-	$reviews = get_all_reviews("boogie@yahoo.co.uk", $conn);
+	$reviews = get_all_reviews($_SESSION['user_profile'], $conn);
 
 	if (!reviews['review_image']) {
 		//-- IF image is NOT found then output different type of card
