@@ -36,16 +36,18 @@
 			echo "<th scope='row'>".$group['group_name']."</th>";
 			echo "<td>".$group['no_of_users']."</td>";
 			echo "<td>".$group['no_of_evaluations']."</td>";
-			echo "<td>Yes</td>";
+
+			if ($group['no_of_evaluations'] == 6) {
+				echo "<td style='color:green;'>Yes</td>";
+			} else {
+				echo "<td style='color:red;'>No</td>";
+			}
+
 			echo "<td><button name='send_results' type='submit' class='btn btn-primary'>Send Results</button></td>";
 			echo "<td><button name='send_reminder' type='submit' class='btn btn-primary'>Send Reminder</button></td>";
 		echo "</tr>";
 	  }
 	  ?>
-      <!--<th scope="row"><a href='' onclick=''>Group 1</a></th>
-      <td>6</td>
-      <td>6</td>
-      <td>Yes</td>-->
   </tbody>
 </table> <br> <br>
 

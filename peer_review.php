@@ -24,6 +24,7 @@
 		if (!$loaded_review['rating']) {
 			//-- IF review doesn't exist for user then insert it --//
 			insert_temp_review($conn);
+			update_group_evaluations($user['groups_id'], $conn);
 		} else {
 			//-- IF review does exist then throw an error
 			$exists_error = "Sorry but a review for this user already exists, please load it.";
@@ -52,7 +53,6 @@
 
 		if (!$loaded_review['rating']){
 			//-- IF review is NOT found --//
-
 			echo "<div class='alert alert-danger alert-dismissible'>
 				 <button type='button' class='close' data-dismiss='alert'>&times;</button>
 				 Sorry, but a review from you for the user <strong> {$selected_user} </strong> does not exist! 

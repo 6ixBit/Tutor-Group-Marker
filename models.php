@@ -105,7 +105,7 @@ include_once 'controller.php';
 		$query = "UPDATE Groups SET no_of_users=$updated_group_count WHERE group_name='$group_name'";
 
 		if (mysqli_query($conn, $query) ){
-			echo "Record updated";
+			//echo "Record updated";
 		} else {
 			echo "Failed: ". mysqli_error($conn);
 		}
@@ -119,7 +119,7 @@ include_once 'controller.php';
 		$query = "UPDATE Groups SET no_of_evaluations=$updated_eval_count WHERE group_name='$group_name'";
 
 		if (mysqli_query($conn, $query) ){
-			echo "Record updated";
+			//echo "Record updated";
 		} else {
 			echo "Failed: ". mysqli_error($conn);
 		}
