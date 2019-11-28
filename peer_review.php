@@ -21,13 +21,16 @@
 		//-- Load review first to see if it already exists, if it does then prevent the user from inserting another one
 		$loaded_review = load_review($user['db_id'], $selected_user, $conn);
 
-		if (!$loaded_review['rating']) {
+		if (!$loaded_review) {
 			//-- IF review doesn't exist for user then insert it --//
 			insert_temp_review($conn);
 			update_group_evaluations($user['groups_id'], $conn);
 		} else {
 			//-- IF review does exist then throw an error
-			$exists_error = "Sorry but a review for this user already exists, please load it.";
+			$rating_id = $loaded_review['rating_id'];
+			update_review($rating_id, $conn);
+
+			$update_success = "Your review has been saved!";
 		}
 	}
 
@@ -47,11 +50,11 @@
 	}
 
 	if (isset($_POST['load_review'])) {
-		$selected_user = $_POST['users_in_group'];
-		// Grab selected user from drop down list
+		$selected_user = $_POST['users_in_group'];    // Grab selected user from drop down list
+		
 		$loaded_review = load_review($user['db_id'], $selected_user, $conn);
 
-		if (!$loaded_review['rating']){
+		if (!$loaded_review){
 			//-- IF review is NOT found --//
 			echo "<div class='alert alert-danger alert-dismissible'>
 				 <button type='button' class='close' data-dismiss='alert'>&times;</button>
@@ -138,7 +141,7 @@
 			<button name='load_review' class='load_review'>Load selected user</button>
 			<button type='submit' name='save_review' class='save_button'>Save temporarily</button> 
 			<button type='submit' name='submit_review' class='finalise_button'>Submit for marking</button> 
-			<?php if ( $exists_error ) { echo "<p class='insert_error' style='color:red;'><strong>".$exists_error."</strong></p>"; }  ?>
+			<?php if ( $update_success ) { echo "<p class='insert_error' style='color:red;'><strong>".$update_success."</strong></p>"; }  ?>
          </form>
        </div>
 

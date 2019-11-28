@@ -271,7 +271,7 @@ include_once 'controller.php';
 		// $user_id : Currently signed in user who made review
 		// $peer_email : Email address of user being reviewed 
 
-		$query = "SELECT description, verdict, review_image, user_reviewed FROM Rating WHERE Member_id=$user_id AND user_reviewed='$peer_email'";
+		$query = "SELECT description, verdict, review_image, user_reviewed, Rating_id FROM Rating WHERE Member_id=$user_id AND user_reviewed='$peer_email'";
 
 		$result = mysqli_query($conn, $query);
 
@@ -281,6 +281,7 @@ include_once 'controller.php';
 		$review_info['rating'] = $row['verdict'];
 		$review_info['image'] = $row['review_image'];
 		$review_info['user_reviewed'] = $row['user_reviewed'];
+		$review_info['rating_id'] = $row['Rating_id'];
 
 		if (!$result){
 			return False;
@@ -289,7 +290,29 @@ include_once 'controller.php';
 		}
 	}
 
-	function update_review($conn){
+	function update_review($rating_id, $conn){
+		//-- Update peer review from database --//
+		$current_user = get_user($_SESSION['username'], $conn);
+
+		//-- Parsing data to be inserted --//
+		$current_user_id = intval($current_user['db_id']);
+		$group_id = intval($current_user['groups_id']);
+		$user_rating = intval($_POST['user_rating']);
+		$review_text = $_POST['peer_text'];
+		$user_reviewed = $_POST['users_in_group'];
+		$img = convert_image();
+		$finalised = 0;
+
+		$query = "REPLACE INTO Rating (Rating_id, Groups_id, Member_id, verdict, description, review_image, user_reviewed, finalised) VALUES
+		('$rating_id','$group_id', '$current_user_id', '$user_rating', '$review_text', '$img', '$user_reviewed', '$finalised')";
+
+		$result = mysqli_query($conn, $query);
+
+		if (!mysqli_query($result)) {
+			echo mysqli_error($conn);
+		} else {
+			echo "Review updated succesfully";
+		}
 	}
 
 	function finalise_review($conn){
@@ -342,6 +365,4 @@ include_once 'controller.php';
 	//echo "<img height='300' width='300' src=data:image;base64,"."{$rev['image']}".">";
 
 	//delete_review(4, $conn); //this works LMAO
-	//print_r(get_all_group_members(2, $conn));
-	//print_r(get_all_group_members(2));
 ?>
