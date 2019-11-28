@@ -30,6 +30,28 @@
 		header( 'Location: profile.php' );
 	}
 
+	if (isset($_POST['send_reminder'])) {
+		//--IF tutor chooses to send reminder--//
+		$grp_eval = get_evaluations_count($_POST['groups'], $conn);
+		
+		$students = get_all_group_members(get_dropdown_id($_POST['groups']));
+
+		if ($grp_eval < 6) {
+			/// IF group still yet to complet reviews
+			foreach($students as $student){
+				send_reminder_email($student);
+			}
+		} else {
+			$reminder_err = "Group has already completed evaluations, send results instead!";
+		}
+	}
+
+	if (isset($_POST['send_results'])) {
+		//--IF tutor chooses to send final results--//
+		echo "Send final results lad!";
+	}
+
+
 ?>
 
 
@@ -43,15 +65,14 @@
 <body>
 <center><h1>Student Groups</h1></center> <br> 
 <!-- For loop to loop over results gather from groups in database -->
-<table class="table table-hover">
+<form action='tutor.php' method='POST'>
+<table class="table table-hover" name='grp_table' style="width:1000px">
   <thead>
     <tr>
       <th scope="col"><strong style='color:red;'><u>Group name</u></strong></th>
       <th scope="col"><strong style='color:red;'><u>No. of Users</u></strong></th>
       <th scope="col"><strong style='color:red;'><u>No. of Evaluations</u></strong></th>
       <th scope="col"><strong style='color:red;'><u>Completed?</u></strong></th>
-      <th scope="col"></th>
-      <th scope="col"></th>
     </tr>
   </thead>
 
@@ -70,18 +91,23 @@
 			} else {
 				echo "<td style='color:red;'>No</td>";
 			}
-
-			echo "<td><button name='send_results' type='submit' class='btn btn-primary'>Send Results</button></td>";
-			echo "<td><button name='send_reminder' type='submit' class='btn btn-primary'>Send Reminder</button></td>";
+		
 		echo "</tr>";
 	  }
 	  ?>
   </tbody>
 </table> <br> <br>
+</form>
 
-<div class="select-group-user">
 <form method="POST" action='tutor.php'> <!-- Dependent on input, redirect user to profile page and fill with user info based on selected item from form-->
 
+	<label for="final" class='email_lbl'>Email will be sent to selected group: </label>
+	<div class='email_buttons' id='email'>
+	<button type='submit' class='btn btn-danger' id='final' name='send_results'>Send final results</button>
+	<button type='submit' class='btn btn-info' name='send_reminder'>Send reminder</button>
+	</div>
+
+	<div class="select-group-user">
 	Select a group:
 		<select name="groups" onchange="" class="select-group">  <!-- Make JS database call on change of value -->
 			<?php 
@@ -103,12 +129,21 @@
 <style>
 	.select-group-user {
 		position: absolute;
-		left: 20%;
+		left: 25%;
 	}
 	.select_user {
 		position: absolute;
-		left: 43%;
-		bottom: 1%;
+		left: 50%;
+		bottom: 10%;
+	}
+	.email_buttons{
+		left: 3%;
+		position: absolute;
+	}
+	.email_lbl{
+		bottom: 15.5%;
+		left: 3%;
+		position: absolute;
 	}
 </style>
 

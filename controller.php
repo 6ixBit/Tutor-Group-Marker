@@ -55,6 +55,6 @@
 
 	}
 
-	send_final_results("mn7754c@gre.ac.uk", "000967991", "9");
+	//send_final_results("mn7754c@gre.ac.uk", "000967991", "9");
 
 ?>
