@@ -42,6 +42,10 @@
 
 		finalise_review($rating_id, $conn);
 		$finalise_success = "Your review has been finalised and submitted!";
+
+		// Once finalised then update overall grade in member table for user.
+		$avg = calc_average_grade($user['e_mail'], $conn);
+		set_ovr_grade($user['e_mail'], $avg, $conn);
 	}
 
 	if (isset($_POST['delete_review'])) { // FIX NEEDED

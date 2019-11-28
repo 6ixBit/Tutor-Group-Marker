@@ -8,8 +8,14 @@ include_once 'controller.php';
 
 <?php
 
-    function calc_average_grade(){
-        return NULL;
+    function calc_average_grade($user_email, $conn){
+		//-- Calculates average grade for a particular user based on peer rating --//
+		$query = "SELECT AVG(verdict) FROM Rating WHERE user_reviewed='$user_email'";
+		$result = mysqli_query($conn, $query);
+
+		$row = mysqli_fetch_assoc($result);
+
+		return intval($row['AVG(verdict)']);
     }
 
     function get_user($username, $conn){
@@ -216,6 +222,18 @@ include_once 'controller.php';
 		return $res;
 	}
 
+	function set_ovr_grade($user_email, $avg_grade, $conn) {
+		//-- Write overall grade for student once grade has been finalised --//
+		$query = "UPDATE Member SET overall_grade='$avg_grade' WHERE e_mail='$user_email'";
+
+		if (mysqli_query($conn, $query) ){
+			echo "Overall grade updated";
+		} else {
+			echo "Failed: ". mysqli_error($conn);
+		}
+	}
+
+
 	function login_student($username, $form_password, $conn){
 		//-- Returns true if hashed password matches form data --//
 		$student_passw = get_user_passw($username, $conn);
@@ -380,5 +398,7 @@ include_once 'controller.php';
 
 	//register_student("admin@gre.ac.uk", encrypt_pass("hsalsldld"), "05045465", 2, $conn);
 
-	//delete_review(4, $conn); //this works LMAO
+	//delete_review(4, $conn); //this works LMAO - SELECT AVG(verdict) FROM Rating WHERE user_reviewed='boogie@yahoo.co.uk'
+
+	//calc_average_grade('boogie@yahoo.co.uk', $conn);
 ?>

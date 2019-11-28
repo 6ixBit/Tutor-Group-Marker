@@ -36,4 +36,12 @@
 		return $image;
 	}
 
+	function send_reminder_email(){
+	
+	}
+
+	function send_final_results() {
+	
+	}
+
 ?>

@@ -25,7 +25,7 @@
 <h1><i><?php echo $user['e_mail']; ?> Student Profile</i></h1> <br>
 <p>Student ID: <?php echo $user['uid']; ?> </p>     
 <p> Group: <?php echo $user['groups_id']; ?> </p>
-<p>Overall grade: 5</p> <!-- Sample data replace with database instance -->
+<p>Overall grade: <?php echo calc_average_grade($user['e_mail'], $conn) ?></p> 
 </center>
 
 <?php
@@ -61,8 +61,6 @@
 			</div>
 		</div>";}
 	}
-
-
 ?>
 
 </body>
