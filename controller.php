@@ -36,12 +36,25 @@
 		return $image;
 	}
 
-	function send_reminder_email(){
-	
+	function send_reminder_email($student_email){
+		ini_set("sendmail_from","mn7754c@gre.ac.uk");
+
+		$subject = "Reminder to complete your work";
+		$body = "This is a reminder email from your tutor for you to complete your work";
+
+		mail("mn7754c@gre.ac.uk", $subject, $body, "From: mn7754c@gre.ac.uk\r\n");
 	}
 
-	function send_final_results() {
-	
+	function send_final_results($student_email, $student_id, $final_grade) {
+		ini_set("sendmail_from","mn7754c@gre.ac.uk");
+
+		$subject = "Peer assessment grade";
+		$body = "Final grade for student "."(".$student_id.")"." is ".$final_grade;
+
+		mail($student_email, $subject, $body, "From: mn7754c@gre.ac.uk\r\n");
+
 	}
+
+	send_final_results("mn7754c@gre.ac.uk", "000967991", "9");
 
 ?>
