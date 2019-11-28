@@ -310,13 +310,35 @@ include_once 'controller.php';
 
 		if (!mysqli_query($result)) {
 			echo mysqli_error($conn);
+			return FALSE;
 		} else {
-			echo "Review updated succesfully";
+			return TRUE;
 		}
 	}
 
-	function finalise_review($conn){
+	function finalise_review($rating_id, $conn){
 		//-- Will UPDATE review if it already exists or INSERT if it doesn't and set finalised to 1 
+		$current_user = get_user($_SESSION['username'], $conn);
+
+		//-- Parsing data to be inserted --//
+		$current_user_id = intval($current_user['db_id']);
+		$group_id = intval($current_user['groups_id']);
+		$user_rating = intval($_POST['user_rating']);
+		$review_text = $_POST['peer_text'];
+		$user_reviewed = $_POST['users_in_group'];
+		$img = convert_image();
+		$finalised = 1;
+
+		$query = "REPLACE INTO Rating (Rating_id, Groups_id, Member_id, verdict, description, review_image, user_reviewed, finalised) VALUES
+		('$rating_id','$group_id', '$current_user_id', '$user_rating', '$review_text', '$img', '$user_reviewed', '$finalised')";
+
+		$result = mysqli_query($conn, $query);
+
+		if (!mysqli_query($result)) {
+			echo mysqli_error($conn);
+		} else {
+			echo "Review finalised succesfully";
+		}
 	}
 
 	 //-- FIX NEEDED --//
@@ -355,14 +377,8 @@ include_once 'controller.php';
 			echo "delete completed succesfully";
 		}
 	}
-	
-	//del_review($conn);
-	//get_groups_info($conn); //--Wont work as returned value is array and not associative array--//
 
 	//register_student("admin@gre.ac.uk", encrypt_pass("hsalsldld"), "05045465", 2, $conn);
-
-	//String to open image on page
-	//echo "<img height='300' width='300' src=data:image;base64,"."{$rev['image']}".">";
 
 	//delete_review(4, $conn); //this works LMAO
 ?>

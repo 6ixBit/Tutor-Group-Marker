@@ -28,10 +28,20 @@
 		} else {
 			//-- IF review does exist then throw an error
 			$rating_id = $loaded_review['rating_id'];
-			update_review($rating_id, $conn);
 
+			update_review($rating_id, $conn);
 			$update_success = "Your review has been saved!";
 		}
+	}
+
+	if (isset($_POST['submit_review'])) {
+		//-- IF submit button pressed then update review with final details
+		$selected_user = $_POST['users_in_group'];
+		$loaded_review = load_review($user['db_id'], $selected_user, $conn);
+		$rating_id = $loaded_review['rating_id'];
+
+		finalise_review($rating_id, $conn);
+		$finalise_success = "Your review has been finalised and submitted!";
 	}
 
 	if (isset($_POST['delete_review'])) { // FIX NEEDED
@@ -141,7 +151,8 @@
 			<button name='load_review' class='load_review'>Load selected user</button>
 			<button type='submit' name='save_review' class='save_button'>Save temporarily</button> 
 			<button type='submit' name='submit_review' class='finalise_button'>Submit for marking</button> 
-			<?php if ( $update_success ) { echo "<p class='insert_error' style='color:red;'><strong>".$update_success."</strong></p>"; }  ?>
+			<?php if ( $update_success ) { echo "<p class='insert_error' style='color:green;'><strong>".$update_success."</strong></p>"; }  ?>
+			<?php if ( $finalise_success ) { echo "<p class='insert_error' style='color:green;'><strong>".$finalise_success."</strong></p>"; }  ?>
          </form>
        </div>
 
@@ -206,7 +217,7 @@
 
 					.insert_error {
 					position: absolute;
-                    left: 40%;
+                    left: 44%;
                     top: 55%;
 					}
 
