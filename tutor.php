@@ -41,20 +41,32 @@
 			foreach($students as $student){
 				send_reminder_email($student);
 			}
-		} else {
+		} elseif ($grp_eval == 6) {
 			$reminder_err = "Group has already completed evaluations, send results instead!";
 		}
 	}
 
 	if (isset($_POST['send_results'])) {
 		//--IF tutor chooses to send final results--//
-		echo "Send final results lad!";
+		$grp_eval = get_evaluations_count($_POST['groups'], $conn);
+
+		$students = get_all_group_members(get_dropdown_id($_POST['groups']));
+
+		if ($grp_eval == 6) {
+			/// IF group still yet to complet reviews
+			foreach($students as $student){
+				// Lookup user from group to be passed when emailing students
+				$user = get_user($student, $conn);
+				$student_id = $user['uid'];
+				$final_grade = $user['overall_grade'];
+
+				send_final_results($student, $student_id, $final_grade);
+			}
+		} else {
+			$send_results_error = "This group has not completed its evaluations yet, send a reminder!";
+		}
 	}
-
-
 ?>
-
-
 
 <html>
 <head>
@@ -91,7 +103,6 @@
 			} else {
 				echo "<td style='color:red;'>No</td>";
 			}
-		
 		echo "</tr>";
 	  }
 	  ?>
@@ -105,6 +116,8 @@
 	<div class='email_buttons' id='email'>
 	<button type='submit' class='btn btn-danger' id='final' name='send_results'>Send final results</button>
 	<button type='submit' class='btn btn-info' name='send_reminder'>Send reminder</button>
+	<?php if ( $reminder_err ) { echo "<p class='insert_error' style='color:red;'><strong>".$reminder_err."</strong></p>"; }  ?>
+	<?php if ( $send_results_error ) { echo "<p class='insert_error' style='color:red;'><strong>".$send_results_error."</strong></p>"; }  ?>
 	</div>
 
 	<div class="select-group-user">

@@ -109,7 +109,6 @@ include_once 'controller.php';
 		$group_members = array();
 
 		if (!mysqli_num_rows($result) > 0) {
-			echo "No results found!";
 			echo mysqli_error($conn);
 		} else {
 			while($row = mysqli_fetch_assoc($result)){
