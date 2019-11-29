@@ -54,7 +54,4 @@
 		mail($student_email, $subject, $body, "From: mn7754c@gre.ac.uk\r\n");
 
 	}
-
-	//send_final_results("mn7754c@gre.ac.uk", "000967991", "9");
-
 ?>

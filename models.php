@@ -232,7 +232,6 @@ include_once 'controller.php';
 		}
 	}
 
-
 	function login_student($username, $form_password, $conn){
 		//-- Returns true if hashed password matches form data --//
 		$student_passw = get_user_passw($username, $conn);
@@ -395,9 +394,99 @@ include_once 'controller.php';
 		}
 	}
 
+	function search_by_grade_less($grade, $conn){
+		//-- Returns students who scored less than $grade in ASC order (low to high) --//
+		$query = "SELECT * FROM Member WHERE overall_grade < '$grade' ORDER BY overall_grade ASC";
+		$result = mysqli_query($conn, $query);
+
+		if (mysqli_num_rows($result) > 0) {
+			while($row = mysqli_fetch_assoc($result)){
+
+				$res[] = array(
+				"e_mail" => $row["e_mail"],
+				"uid" => $row["uid"],
+				"overall_grade" => $row['overall_grade'],
+				"groups_id" => $row['groups_id'],
+                 );
+			}
+		} else {
+			echo "No results";
+		}
+		mysqli_close($conn);
+
+		return $res;
+	}
+
+	function search_by_grade_less_high_to_low($grade, $conn){
+		//-- Returns students who scored less than $grade in DESC order (high to low) --//
+		$query = "SELECT * FROM Member WHERE overall_grade < '$grade' ORDER BY overall_grade DESC";
+		$result = mysqli_query($conn, $query);
+
+		if (mysqli_num_rows($result) > 0) {
+			while($row = mysqli_fetch_assoc($result)){
+
+				$res[] = array(
+				"e_mail" => $row["e_mail"],
+				"uid" => $row["uid"],
+				"overall_grade" => $row['overall_grade'],
+				"groups_id" => $row['groups_id'],
+                 );
+			}
+		} else {
+			echo "No results";
+		}
+		mysqli_close($conn);
+
+		return $res;
+	}
+
+	function search_by_grade_greater($grade, $conn){
+		//-- Returns students who scored higher than $grade in ASC order (low to high) --//
+		$query = "SELECT * FROM Member WHERE overall_grade > '$grade' ORDER BY overall_grade ASC";
+		$result = mysqli_query($conn, $query);
+
+		if (mysqli_num_rows($result) > 0) {
+			while($row = mysqli_fetch_assoc($result)){
+
+				$res[] = array(
+				"e_mail" => $row["e_mail"],
+				"uid" => $row["uid"],
+				"overall_grade" => $row['overall_grade'],
+				"groups_id" => $row['groups_id'],
+                 );
+			}
+		} else {
+			echo "No results";
+		}
+		mysqli_close($conn);
+
+		return $res;
+	}
+
+	function search_by_grade_greater_high_to_low($grade, $conn){
+		//-- Returns students who scored higher than $grade in DESC order (high to low) --//
+		$query = "SELECT * FROM Member WHERE overall_grade > '$grade' ORDER BY overall_grade DESC";
+		$result = mysqli_query($conn, $query);
+
+		if (mysqli_num_rows($result) > 0) {
+			while($row = mysqli_fetch_assoc($result)){
+
+				$res[] = array(
+				"e_mail" => $row["e_mail"],
+				"uid" => $row["uid"],
+				"overall_grade" => $row['overall_grade'],
+				"groups_id" => $row['groups_id'],
+                 );
+			}
+		} else {
+			echo "No results";
+		}
+		mysqli_close($conn);
+
+		return $res;
+	}
+
 	//register_student("admin@gre.ac.uk", encrypt_pass("hsalsldld"), "05045465", 2, $conn);
 
 	//delete_review(4, $conn); //this works LMAO - SELECT AVG(verdict) FROM Rating WHERE user_reviewed='boogie@yahoo.co.uk'
-
-	//calc_average_grade('boogie@yahoo.co.uk', $conn);
 ?>
