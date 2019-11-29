@@ -470,7 +470,7 @@ include_once 'controller.php';
 
 		if (mysqli_num_rows($result) > 0) {
 			while($row = mysqli_fetch_assoc($result)){
-
+				// Loop results and append values to assoc array
 				$res[] = array(
 				"e_mail" => $row["e_mail"],
 				"uid" => $row["uid"],
@@ -486,7 +486,60 @@ include_once 'controller.php';
 		return $res;
 	}
 
+	function search_all_students($res_per_page, $conn){
+		//-- Returns all students reigstered in paginated format, based on $res_per_page --//
+
+		if(isset($_GET['page'])) {
+		// Check if page number is set from URL query
+		$page = $_GET['page'];
+		} else {
+			// IF page number is not set then default to 1
+			$page = 1;
+		}
+
+		//Starting point for results
+		$start_point = ($page-1) * $res_per_page;
+
+		// Query total number of records in original query
+		$query_total_records = "SELECT * FROM Member";
+		$result_2 = mysqli_query($conn, $query_total_records);
+	
+		//Get number of rows from result
+		$numRows = mysqli_num_rows($result_2);
+
+		// Calculate total number of pages - Dividie amnt per page by numb of records
+		$totalpages = $numRows / $res_per_page;
+
+		// Get total number of records
+		$query = "SELECT * FROM Member LIMIT $start_point, $res_per_page";
+		$result = mysqli_query($conn, $query);
+
+		if (mysqli_num_rows($result) > 0) {
+			while($row = mysqli_fetch_assoc($result)){
+				// Loop results and append values to assoc array
+				$res[] = array(
+				"e_mail" => $row["e_mail"],
+				"uid" => $row["uid"],
+				"overall_grade" => $row['overall_grade'],
+				"groups_id" => $row['groups_id'],
+                 );
+			}
+		} else {
+			echo "No results";
+		}
+		mysqli_close($conn);
+
+		return $res;
+	}
+
+	//print_r(search_all_students(3, $conn));
+
 	//register_student("admin@gre.ac.uk", encrypt_pass("hsalsldld"), "05045465", 2, $conn);
 
-	//delete_review(4, $conn); //this works LMAO - SELECT AVG(verdict) FROM Rating WHERE user_reviewed='boogie@yahoo.co.uk'
+	$res = search_all_students(2, $conn);
+	print_r($res);
+
+	//foreach($res as $s) {
+		//echo "<tr><td>'$s['e_mail']'</td><td>'$s['uid']'</td><td>'$s['overall_grade']'</td><td>'$s['groups_id']'</td></tr>";
+	//}
 ?>
