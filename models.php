@@ -1,9 +1,6 @@
 <?php
 include 'config.php';
 include_once 'controller.php';
-
-//error_reporting(E_ALL);
-//ini_set('display_errors', 1);
 ?>
 
 <?php
@@ -373,7 +370,7 @@ include_once 'controller.php';
 			echo $user_reviewed;
 		}
 	}
-
+	 //-- FIX NEEDED --//
 	function del_review($conn) {
 		//-- Insert peer review into database --//
 		$current_user = get_user($_SESSION['username'], $conn);
@@ -405,7 +402,8 @@ include_once 'controller.php';
 			$page = 1;
 		}
 
-		//Starting point for results
+		//Starting point for results 
+		// Formula for this was sourced from https://www.myprogrammingtutorials.com/create-pagination-with-php-and-mysql.html
 		$start_point = ($page-1) * $res_per_page;
 
 		// Query total number of records in original query
@@ -451,6 +449,7 @@ include_once 'controller.php';
 		}
 
 		//Starting point for results
+		// Formula for this was sourced from https://www.myprogrammingtutorials.com/create-pagination-with-php-and-mysql.html
 		$start_point = ($page-1) * $res_per_page;
 
 		// Query total number of records in original query
@@ -497,6 +496,7 @@ include_once 'controller.php';
 		}
 
 		//Starting point for results
+		// Formula for this was sourced from https://www.myprogrammingtutorials.com/create-pagination-with-php-and-mysql.html
 		$start_point = ($page-1) * $res_per_page;
 
 		// Query total number of records in original query
@@ -542,6 +542,7 @@ include_once 'controller.php';
 		}
 
 		//Starting point for results
+		// Formula for this was sourced from https://www.myprogrammingtutorials.com/create-pagination-with-php-and-mysql.html
 		$start_point = ($page-1) * $res_per_page;
 
 		// Query total number of records in original query
@@ -588,6 +589,7 @@ include_once 'controller.php';
 		}
 
 		//Starting point for results
+		// Formula for this was sourced from https://www.myprogrammingtutorials.com/create-pagination-with-php-and-mysql.html
 		$start_point = ($page-1) * $res_per_page;
 
 		// Query total number of records in original query
@@ -622,12 +624,54 @@ include_once 'controller.php';
 		return $res;
 	}
 
-	function search_id_by_sub_string($subString, $conn) {
+	function search_id_by_sub_string($subString, $res_per_page, $conn) {
 		//-- Returns results that match searched ID by sub string --//
+		if(isset($_GET['page'])) {
+		// Check if page number is set from URL query
+		$page = $_GET['page'];
+		} else {
+			// IF page number is not set then default to 1
+			$page = 1;
+		}
+
+		//Starting point for results
+		// Formula for this was sourced from https://www.myprogrammingtutorials.com/create-pagination-with-php-and-mysql.html
+		$start_point = ($page-1) * $res_per_page;
+
+		// Query total number of records in original query
+		$query_total_records = "SELECT * FROM Member WHERE uid LIKE '%$subString%'";
+		$result_2 = mysqli_query($conn, $query_total_records);
+	
+		//Get number of rows from result
+		$numRows = mysqli_num_rows($result_2);
+
+		// Calculate total number of pages - Dividie amnt per page by numb of records
+		$totalpages = $numRows / $res_per_page;
+
+		// Get total number of records
+		$query = "SELECT * FROM Member WHERE uid LIKE '%$subString%' LIMIT $start_point, $res_per_page";
+		$result = mysqli_query($conn, $query);
+
+		if (mysqli_num_rows($result) > 0) {
+			while($row = mysqli_fetch_assoc($result)){
+				// Loop results and append values to assoc array
+				$res[] = array(
+				"e_mail" => $row["e_mail"],
+				"uid" => $row["uid"],
+				"overall_grade" => $row['overall_grade'],
+				"groups_id" => $row['Groups_id'],
+                 );
+			}
+		} else {
+			echo "No results";
+		}
+		mysqli_close($conn);
+
+		return $res;
 	}
 	
 	//register_student("admin@gre.ac.uk", encrypt_pass("hsalsldld"), "05045465", 2, $conn);
-	$res = search_by_grade_greater_high_to_low(2, 5, $conn);
+	$res = search_id_by_sub_string('094', 2, $conn);
 	foreach($res as $s) {
 		//echo "<tr><td>".$s['e_mail']."</td></tr><br>";
 		print_r($s);
