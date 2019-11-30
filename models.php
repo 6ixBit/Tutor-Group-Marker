@@ -394,78 +394,32 @@ include_once 'controller.php';
 		}
 	}
 
-	function search_by_grade_less($grade, $conn){
+	function search_by_grade_less($res_per_page, $grade, $conn){
 		//-- Returns students who scored less than $grade in ASC order (low to high) --//
-		$query = "SELECT * FROM Member WHERE overall_grade < '$grade' ORDER BY overall_grade ASC";
-		$result = mysqli_query($conn, $query);
 
-		if (mysqli_num_rows($result) > 0) {
-			while($row = mysqli_fetch_assoc($result)){
-
-				$res[] = array(
-				"e_mail" => $row["e_mail"],
-				"uid" => $row["uid"],
-				"overall_grade" => $row['overall_grade'],
-				"groups_id" => $row['groups_id'],
-                 );
-			}
+		if(isset($_GET['page'])) {
+		// Check if page number is set from URL query
+		$page = $_GET['page'];
 		} else {
-			echo "No results";
+			// IF page number is not set then default to 1
+			$page = 1;
 		}
-		mysqli_close($conn);
 
-		return $res;
-	}
+		//Starting point for results
+		$start_point = ($page-1) * $res_per_page;
 
-	function search_by_grade_less_high_to_low($grade, $conn){
-		//-- Returns students who scored less than $grade in DESC order (high to low) --//
-		$query = "SELECT * FROM Member WHERE overall_grade < '$grade' ORDER BY overall_grade DESC";
-		$result = mysqli_query($conn, $query);
+		// Query total number of records in original query
+		$query_total_records = "SELECT * FROM Member WHERE overall_grade < '$grade' ORDER BY overall_grade ASC";
+		$result_2 = mysqli_query($conn, $query_total_records);
+	
+		//Get number of rows from result
+		$numRows = mysqli_num_rows($result_2);
 
-		if (mysqli_num_rows($result) > 0) {
-			while($row = mysqli_fetch_assoc($result)){
+		// Calculate total number of pages - Dividie amnt per page by numb of records
+		$totalpages = $numRows / $res_per_page;
 
-				$res[] = array(
-				"e_mail" => $row["e_mail"],
-				"uid" => $row["uid"],
-				"overall_grade" => $row['overall_grade'],
-				"groups_id" => $row['groups_id'],
-                 );
-			}
-		} else {
-			echo "No results";
-		}
-		mysqli_close($conn);
-
-		return $res;
-	}
-
-	function search_by_grade_greater($grade, $conn){
-		//-- Returns students who scored higher than $grade in ASC order (low to high) --//
-		$query = "SELECT * FROM Member WHERE overall_grade > '$grade' ORDER BY overall_grade ASC";
-		$result = mysqli_query($conn, $query);
-
-		if (mysqli_num_rows($result) > 0) {
-			while($row = mysqli_fetch_assoc($result)){
-
-				$res[] = array(
-				"e_mail" => $row["e_mail"],
-				"uid" => $row["uid"],
-				"overall_grade" => $row['overall_grade'],
-				"groups_id" => $row['groups_id'],
-                 );
-			}
-		} else {
-			echo "No results";
-		}
-		mysqli_close($conn);
-
-		return $res;
-	}
-
-	function search_by_grade_greater_high_to_low($grade, $conn){
-		//-- Returns students who scored higher than $grade in DESC order (high to low) --//
-		$query = "SELECT * FROM Member WHERE overall_grade > '$grade' ORDER BY overall_grade DESC";
+		// Get total number of records
+		$query = "SELECT * FROM Member WHERE overall_grade < '$grade' ORDER BY overall_grade ASC LIMIT $start_point, $res_per_page";
 		$result = mysqli_query($conn, $query);
 
 		if (mysqli_num_rows($result) > 0) {
@@ -475,7 +429,143 @@ include_once 'controller.php';
 				"e_mail" => $row["e_mail"],
 				"uid" => $row["uid"],
 				"overall_grade" => $row['overall_grade'],
-				"groups_id" => $row['groups_id'],
+				"groups_id" => $row['Groups_id'],
+                 );
+			}
+		} else {
+			echo "No results";
+		}
+		mysqli_close($conn);
+
+		return $res;
+	}
+
+	function search_by_grade_less_high_to_low($res_per_page, $grade, $conn){
+		//-- Returns students who scored less than $grade in DESC order (high to low) --//
+		if(isset($_GET['page'])) {
+		// Check if page number is set from URL query
+		$page = $_GET['page'];
+		} else {
+			// IF page number is not set then default to 1
+			$page = 1;
+		}
+
+		//Starting point for results
+		$start_point = ($page-1) * $res_per_page;
+
+		// Query total number of records in original query
+		$query_total_records = "SELECT * FROM Member WHERE overall_grade < '$grade' ORDER BY overall_grade DESC";
+		$result_2 = mysqli_query($conn, $query_total_records);
+	
+		//Get number of rows from result
+		$numRows = mysqli_num_rows($result_2);
+
+		// Calculate total number of pages - Dividie amnt per page by numb of records
+		$totalpages = $numRows / $res_per_page;
+
+		// Get total number of records
+		$query = "SELECT * FROM Member WHERE overall_grade < '$grade' ORDER BY overall_grade DESC LIMIT $start_point, $res_per_page";
+		$result = mysqli_query($conn, $query);
+
+		if (mysqli_num_rows($result) > 0) {
+			while($row = mysqli_fetch_assoc($result)){
+				// Loop results and append values to assoc array
+				$res[] = array(
+				"e_mail" => $row["e_mail"],
+				"uid" => $row["uid"],
+				"overall_grade" => $row['overall_grade'],
+				"groups_id" => $row['Groups_id'],
+                 );
+			}
+		} else {
+			echo "No results";
+		}
+		mysqli_close($conn);
+
+		return $res;
+	}
+
+	function search_by_grade_greater($res_per_page, $grade, $conn){
+		//-- Returns students who scored higher than $grade in ASC order (low to high) --//
+
+		if(isset($_GET['page'])) {
+		// Check if page number is set from URL query
+		$page = $_GET['page'];
+		} else {
+			// IF page number is not set then default to 1
+			$page = 1;
+		}
+
+		//Starting point for results
+		$start_point = ($page-1) * $res_per_page;
+
+		// Query total number of records in original query
+		$query_total_records = "SELECT * FROM Member WHERE overall_grade > '$grade' ORDER BY overall_grade ASC";
+		$result_2 = mysqli_query($conn, $query_total_records);
+	
+		//Get number of rows from result
+		$numRows = mysqli_num_rows($result_2);
+
+		// Calculate total number of pages - Dividie amnt per page by numb of records
+		$totalpages = $numRows / $res_per_page;
+
+		// Get total number of records
+		$query = "SELECT * FROM Member WHERE overall_grade > '$grade' ORDER BY overall_grade ASC LIMIT $start_point, $res_per_page";
+		$result = mysqli_query($conn, $query);
+
+		if (mysqli_num_rows($result) > 0) {
+			while($row = mysqli_fetch_assoc($result)){
+				// Loop results and append values to assoc array
+				$res[] = array(
+				"e_mail" => $row["e_mail"],
+				"uid" => $row["uid"],
+				"overall_grade" => $row['overall_grade'],
+				"groups_id" => $row['Groups_id'],
+                 );
+			}
+		} else {
+			echo "No results";
+		}
+		mysqli_close($conn);
+
+		return $res;
+	}
+
+	function search_by_grade_greater_high_to_low($res_per_page, $grade, $conn){
+		//-- Returns students who scored higher than $grade in DESC order (high to low) --//
+		if(isset($_GET['page'])) {
+		// Check if page number is set from URL query
+		$page = $_GET['page'];
+		} else {
+			// IF page number is not set then default to 1
+			$page = 1;
+		}
+
+		//Starting point for results
+		$start_point = ($page-1) * $res_per_page;
+
+		// Query total number of records in original query
+		$query_total_records = "SELECT * FROM Member WHERE overall_grade > '$grade' ORDER BY overall_grade DESC";
+		$result_2 = mysqli_query($conn, $query_total_records);
+	
+		//Get number of rows from result
+		$numRows = mysqli_num_rows($result_2);
+
+		// Calculate total number of pages - Dividie amnt per page by numb of records
+		$totalpages = $numRows / $res_per_page;
+
+		// Get total number of records
+		$query = "SELECT * FROM Member WHERE overall_grade > '$grade' ORDER BY overall_grade DESC LIMIT $start_point, $res_per_page";
+		$result = mysqli_query($conn, $query);
+
+		if (mysqli_num_rows($result) > 0) {
+			while($row = mysqli_fetch_assoc($result)){
+				// Loop results and append values to assoc array
+				$res[] = array(
+				"e_mail" => $row["e_mail"],
+				"uid" => $row["uid"],
+				"overall_grade" => $row['overall_grade'],
+				"groups_id" => $row['Groups_id'],
                  );
 			}
 		} else {
@@ -521,7 +611,7 @@ include_once 'controller.php';
 				"e_mail" => $row["e_mail"],
 				"uid" => $row["uid"],
 				"overall_grade" => $row['overall_grade'],
-				"groups_id" => $row['groups_id'],
+				"groups_id" => $row['Groups_id'],
                  );
 			}
 		} else {
@@ -532,14 +622,14 @@ include_once 'controller.php';
 		return $res;
 	}
 
-	//print_r(search_all_students(3, $conn));
-
+	function search_id_by_sub_string($subString, $conn) {
+		//-- Returns results that match searched ID by sub string --//
+	}
+	
 	//register_student("admin@gre.ac.uk", encrypt_pass("hsalsldld"), "05045465", 2, $conn);
-
-	$res = search_all_students(2, $conn);
-	print_r($res);
-
-	//foreach($res as $s) {
-		//echo "<tr><td>'$s['e_mail']'</td><td>'$s['uid']'</td><td>'$s['overall_grade']'</td><td>'$s['groups_id']'</td></tr>";
-	//}
+	$res = search_by_grade_greater_high_to_low(2, 5, $conn);
+	foreach($res as $s) {
+		//echo "<tr><td>".$s['e_mail']."</td></tr><br>";
+		print_r($s);
+	}
 ?>
