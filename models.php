@@ -671,9 +671,9 @@ include_once 'controller.php';
 	}
 	
 	//register_student("admin@gre.ac.uk", encrypt_pass("hsalsldld"), "05045465", 2, $conn);
-	$res = search_id_by_sub_string('094', 2, $conn);
-	foreach($res as $s) {
+	//$res = search_id_by_sub_string('094', 2, $conn);
+	//foreach($res as $s) {
 		//echo "<tr><td>".$s['e_mail']."</td></tr><br>";
-		print_r($s);
-	}
+	//	print_r($s);
+	//}
 ?>
