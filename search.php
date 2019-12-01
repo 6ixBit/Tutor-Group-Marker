@@ -3,12 +3,8 @@
     include 'templates/tutor_nav.html'; 
 	include 'config.php';
 	include 'models.php';
-
 	 // $_SESSION['user_profile']; //
-	$full_url = 'http://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']; 
-?>
-
-<?php
+	
 $tableTop = "<center><table class='table table-hover' name='grp_table' style='width:750px'>
   <thead>
     <tr>
@@ -26,9 +22,6 @@ $tableTop = "<center><table class='table table-hover' name='grp_table' style='wi
 </table>
 </center>
 <form action='search.php'>
-<center>
-
-</center>
 </form>";
 
 ?>
@@ -41,21 +34,44 @@ $tableTop = "<center><table class='table table-hover' name='grp_table' style='wi
 			if (empty($_GET['search'])) {
 				//IF searched term is empty, return all results //
 				$students = search_all_students(3, $conn);
-				echo $tableTop;
 
-				foreach($students as $student) {
-					echo "<tr class='table-active'>";
-					echo "<a href='?prof={$student['e_mail']}'><th scope='row'><a href='' name='user_prof'>".$student['e_mail']."</th></a>";
-					echo "<td>".$student['uid']."</td>";
-					echo "<td>".$student['overall_grade']."</td>";
-					echo "<td>".$student['groups_id']."</td>";
-					$total = $student['total_pages'];
+				if ($students) {
+					// IF users in database exist, output them
+					echo $tableTop;
+					foreach($students as $student) {
+						echo "<tr class='table-active'>";
+						echo "<a href='?prof={$student['e_mail']}'><th scope='row'><a href='' name='user_prof'>".$student['e_mail']."</th></a>";
+						echo "<td>".$student['uid']."</td>";
+						echo "<td>".$student['overall_grade']."</td>";
+						echo "<td>".$student['groups_id']."</td>";
+						$total = $student['total_pages'];
+					}
+					echo $tableBottom;
+					echo "<center><a href='{$_SERVER['REQUEST_URI']}&page=".($_GET['page']-1)."' class='btn btn-danger'>PREV</a>";
+					echo "<a href='{$_SERVER['REQUEST_URI']}&page=".($_GET['page']+1)."' class='btn btn-info'>NEXT</a>";
+					echo "<p>Total pages: ".$total."</p></center>";
 				}
-				echo $tableBottom;
-
-				echo "<center><a href='{$_SERVER['REQUEST_URI']}&page=".($_GET['page']-1)."' class='btn btn-danger'>PREV</a>";
-				echo "<a href='{$_SERVER['REQUEST_URI']}&page=".($_GET['page']+1)."' class='btn btn-info'>NEXT</a>";
-				echo "<p>Total pages: ".$total."</p></center>";
+		
+			} else {
+				// IF search by ID field is not empty then search sub string
+				$students = search_id_by_sub_string($_GET['search'], 3, $conn);
+				if ($students) {
+					//IF results matching query are found
+					echo $tableTop;
+					foreach($students as $student) {
+						echo "<tr class='table-active'>";
+						echo "<a href='?prof={$student['e_mail']}'><th scope='row'><a href='' name='user_prof'>".$student['e_mail']."</th></a>";
+						echo "<td>".$student['uid']."</td>";
+						echo "<td>".$student['overall_grade']."</td>";
+						echo "<td>".$student['groups_id']."</td>";
+						$total = $student['total_pages'];
+					}
+					echo $tableBottom;
+					echo "<center><a href='{$_SERVER['REQUEST_URI']}&page=".($_GET['page']-1)."' class='btn btn-danger'>PREV</a>";
+					echo "<a href='{$_SERVER['REQUEST_URI']}&page=".($_GET['page']+1)."' class='btn btn-info'>NEXT</a>";
+					echo "<p>Total pages: ".$total."</p></center>";
+				}
+				
 			}
 
 		}
@@ -67,7 +83,7 @@ $tableTop = "<center><table class='table table-hover' name='grp_table' style='wi
 </head>
 <body>
 
-<div>
+<div class='searching'>
 <fieldset class="form-group">
 
 	<form name="search_" >
@@ -83,14 +99,14 @@ $tableTop = "<center><table class='table table-hover' name='grp_table' style='wi
 
 		<div class="form-check">
         <label class="form-check-label">
-          <input type="radio" class="form-check-input" name="optionsRadios" id="byGrade" value="byGrade" checked="">
+          <input type="radio" class="form-check-input" name="optionsRadios" id="byGrade" value="byGrade" >
           Search by grade
         </label>
       </div>
 
       <div class="form-check">
       <label class="form-check-label">
-          <input type="radio" class="form-check-input" name="optionsRadios" id="byID" value="byID">
+          <input type="radio" class="form-check-input" name="optionsRadios" id="byID" value="byID" checked="">
           Search by ID
         </label>
       </div>
@@ -106,7 +122,7 @@ echo $_GET['sort'];  ///SORT VALUE = ON if high to low is selected, blank if oth
 echo "<br>";
 echo $_GET['optionsRadios']; // either byID or byGrade
 echo "<br>";
-echo $_GET['search']; //Returns search term
+//echo $_GET['search']; //Returns search term
 echo "<br>";
 
 if (!$_GET['sort']) {
