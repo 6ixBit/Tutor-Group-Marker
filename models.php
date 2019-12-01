@@ -428,6 +428,7 @@ include_once 'controller.php';
 				"uid" => $row["uid"],
 				"overall_grade" => $row['overall_grade'],
 				"groups_id" => $row['Groups_id'],
+				"total_pages" => $totalpages
                  );
 			}
 		} else {
@@ -474,6 +475,7 @@ include_once 'controller.php';
 				"uid" => $row["uid"],
 				"overall_grade" => $row['overall_grade'],
 				"groups_id" => $row['Groups_id'],
+				"total_pages" => $totalpages
                  );
 			}
 		} else {
@@ -521,6 +523,7 @@ include_once 'controller.php';
 				"uid" => $row["uid"],
 				"overall_grade" => $row['overall_grade'],
 				"groups_id" => $row['Groups_id'],
+				"total_pages" => $totalpages
                  );
 			}
 		} else {
@@ -567,6 +570,7 @@ include_once 'controller.php';
 				"uid" => $row["uid"],
 				"overall_grade" => $row['overall_grade'],
 				"groups_id" => $row['Groups_id'],
+				"total_pages" => $totalpages
                  );
 			}
 		} else {
@@ -614,6 +618,7 @@ include_once 'controller.php';
 				"uid" => $row["uid"],
 				"overall_grade" => $row['overall_grade'],
 				"groups_id" => $row['Groups_id'],
+				"total_pages" => $totalpages
                  );
 			}
 		} else {
@@ -660,6 +665,7 @@ include_once 'controller.php';
 				"uid" => $row["uid"],
 				"overall_grade" => $row['overall_grade'],
 				"groups_id" => $row['Groups_id'],
+				"total_pages" => $totalpages
                  );
 			}
 		} else {
@@ -670,11 +676,5 @@ include_once 'controller.php';
 		return $res;
 	}
 	
-	//register_student("admin@gre.ac.uk", encrypt_pass("hsalsldld"), "05045465", 2, $conn);
-	//$res = search_id_by_sub_string('094', 2, $conn);
-	//foreach($res as $s) {
-		//echo "<tr><td>".$s['e_mail']."</td></tr><br>";
-	//	print_r($s);
-	//}
-	
+	//register_student("admin@gre.ac.uk", encrypt_pass("hsalsldld"), "05045465", 2, $conn);	
 ?>
