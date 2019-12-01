@@ -428,7 +428,7 @@ include_once 'controller.php';
 				"uid" => $row["uid"],
 				"overall_grade" => $row['overall_grade'],
 				"groups_id" => $row['Groups_id'],
-				"total_pages" => $totalpages
+				"total_pages" => intval($totalpages)
                  );
 			}
 		} else {
@@ -475,7 +475,7 @@ include_once 'controller.php';
 				"uid" => $row["uid"],
 				"overall_grade" => $row['overall_grade'],
 				"groups_id" => $row['Groups_id'],
-				"total_pages" => $totalpages
+				"total_pages" => intval($totalpages)
                  );
 			}
 		} else {
@@ -523,7 +523,7 @@ include_once 'controller.php';
 				"uid" => $row["uid"],
 				"overall_grade" => $row['overall_grade'],
 				"groups_id" => $row['Groups_id'],
-				"total_pages" => $totalpages
+				"total_pages" => intval($totalpages)
                  );
 			}
 		} else {
@@ -570,7 +570,7 @@ include_once 'controller.php';
 				"uid" => $row["uid"],
 				"overall_grade" => $row['overall_grade'],
 				"groups_id" => $row['Groups_id'],
-				"total_pages" => $totalpages
+				"total_pages" => intval($totalpages)
                  );
 			}
 		} else {
@@ -618,7 +618,7 @@ include_once 'controller.php';
 				"uid" => $row["uid"],
 				"overall_grade" => $row['overall_grade'],
 				"groups_id" => $row['Groups_id'],
-				"total_pages" => $totalpages
+				"total_pages" => intval($totalpages)
                  );
 			}
 		} else {
@@ -665,7 +665,7 @@ include_once 'controller.php';
 				"uid" => $row["uid"],
 				"overall_grade" => $row['overall_grade'],
 				"groups_id" => $row['Groups_id'],
-				"total_pages" => $totalpages
+				"total_pages" => intval($totalpages)
                  );
 			}
 		} else {

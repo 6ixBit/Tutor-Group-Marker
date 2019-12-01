@@ -81,7 +81,7 @@ $tableTop = "<center><table class='table table-hover' name='grp_table' style='wi
 ?>
 
 <?php
-	// SEARCH BY GRADE
+	// SEARCH BY GRADE - Greater than option
 	if (isset($_GET['search_btn'])) {
 		//IF Search button is pressed
 		if ($_GET['optionsRadios'] == 'byGrade') {
@@ -127,25 +127,57 @@ $tableTop = "<center><table class='table table-hover' name='grp_table' style='wi
 				}
 			}
 		}
-
 	}
+?>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+<?php
+	// SEARCH BY GRADE - Less than option
+	if (isset($_GET['search_btn'])) {
+		//IF Search button is pressed
+		if ($_GET['optionsRadios'] == 'byGrade') {
+			// IF grade option is selected
+			//echo $_GET['select_grades']; //Drop down with values
+			if ($_GET['filter_grades'] == 'lt' && !$_GET['sort']) {
+				// IF Greater than chosen and sort is from low to high (ASC)
+				$students = search_by_grade_less(3, $_GET['select_grades'], $conn);
+				if ($students) {
+					// IF results found, output them
+					echo $tableTop;
+					foreach($students as $student) {
+						echo "<tr class='table-active'>";
+						echo "<a href='?prof={$student['e_mail']}'><th scope='row'><a href='' name='user_prof'>".$student['e_mail']."</th></a>";
+						echo "<td>".$student['uid']."</td>";
+						echo "<td>".$student['overall_grade']."</td>";
+						echo "<td>".$student['groups_id']."</td>";
+						$total = $student['total_pages'];
+					}
+					echo $tableBottom;
+					echo "<center><a href='{$_SERVER['REQUEST_URI']}&page=".($_GET['page']-1)."' class='btn btn-danger'>PREV</a>";
+					echo "<a href='{$_SERVER['REQUEST_URI']}&page=".($_GET['page']+1)."' class='btn btn-info'>NEXT</a>";
+					echo "<p>Total pages: ".$total."</p></center>";
+				}
+			} elseif ($_GET['filter_grades'] == 'lt' && $_GET['sort']) {
+				// IF Greater than chosen and sort is from high to low (DESC)
+				$students = search_by_grade_less_high_to_low(3, $_GET['select_grades'], $conn);
+				if ($students) {
+					// IF results found, output them
+					echo $tableTop;
+					foreach($students as $student) {
+						echo "<tr class='table-active'>";
+						echo "<a href='?prof={$student['e_mail']}'><th scope='row'><a href='' name='user_prof'>".$student['e_mail']."</th></a>";
+						echo "<td>".$student['uid']."</td>";
+						echo "<td>".$student['overall_grade']."</td>";
+						echo "<td>".$student['groups_id']."</td>";
+						$total = $student['total_pages'];
+					}
+					echo $tableBottom;
+					echo "<center><a href='{$_SERVER['REQUEST_URI']}&page=".($_GET['page']-1)."' class='btn btn-danger'>PREV</a>";
+					echo "<a href='{$_SERVER['REQUEST_URI']}&page=".($_GET['page']+1)."' class='btn btn-info'>NEXT</a>";
+					echo "<p>Total pages: ".$total."</p></center>";
+				}
+			}
+		}
+	}
 ?>
 
 <html>
@@ -202,27 +234,9 @@ $tableTop = "<center><table class='table table-hover' name='grp_table' style='wi
 		<input type="checkbox" class="custom-control-input" id="customSwitch1" name='sort'>
 		<label class="custom-control-label" for="customSwitch1">Sort from high to low</label>
       </div>
-	  
 	</form>
 
 </fieldset>
 </div>
 </body>
 </html>
-
-<?php
-echo $_GET['sort'];  ///SORT VALUE = ON if high to low is selected, blank if otherwise
-echo "<br>";
-echo $_GET['optionsRadios']; // either byID or byGrade
-echo "<br>";
-//echo $_GET['search']; //Returns search term
-echo "<br>";
-
-if (!$_GET['sort']) {
-	//echo "Sort from low to high";
-	echo "<br>";
-} else {
-	//echo "Sort from high to low";
-}
-
-?>
