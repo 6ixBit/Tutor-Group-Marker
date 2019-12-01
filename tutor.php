@@ -1,9 +1,17 @@
 <?php
     session_start();                     //Home page for tutor will consists of rows of groups with a button to view
 
-    include 'templates/tutor_nav.html';  //Group memebers
 	include_once 'models.php';
 	include_once 'controller.php';
+                      
+    if(isset($_SESSION['username'])){   
+		 //IF user is logged in Session 
+        include 'templates/tutor_nav.html';  
+    } else {
+		//IF user is not logged in
+        header( 'Location: login.php' );
+        session_destroy();
+    }
 
 	if(isset($_POST['view_students'])) {
 	//-- IF a group is selected then

@@ -4,6 +4,15 @@
       
 	  include 'config.php';
 	  include_once 'models.php';
+
+	if(isset($_SESSION['username'])){   
+		 //IF user is logged in Session 
+        include 'templates/tutor_nav.html';  
+    } else {
+		//IF user is not logged in
+        header( 'Location: login.php' );
+        session_destroy();
+    }
 ?>     
 
 <?php

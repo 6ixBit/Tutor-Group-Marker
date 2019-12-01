@@ -7,6 +7,15 @@
 	
     session_start();  
 
+	  if(isset($_SESSION['username'])){   
+		 //IF user is logged in Session 
+        include 'templates/tutor_nav.html';  
+    } else {
+		//IF user is not logged in
+        header( 'Location: login.php' );
+        session_destroy();
+    }
+
 	//error_reporting(E_ALL);
 	//ini_set('display_errors', 1);
 ?>

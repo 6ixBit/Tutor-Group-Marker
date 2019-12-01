@@ -3,7 +3,17 @@
     include 'templates/tutor_nav.html'; 
 	include 'config.php';
 	include 'models.php';
+
 	 // $_SESSION['user_profile']; Pass clicked result to profile page //
+
+	   if(isset($_SESSION['username'])){   
+		 //IF user is logged in Session 
+        include 'templates/tutor_nav.html';  
+    } else {
+		//IF user is not logged in
+        header( 'Location: login.php' );
+        session_destroy();
+    }
 	
 //Store top of table layout to avoid clutter when outputting search results
 $tableTop = "<center><table class='table table-hover' name='grp_table' style='width:750px'>
@@ -43,7 +53,7 @@ $tableTop = "<center><table class='table table-hover' name='grp_table' style='wi
 					foreach($students as $student) {
 						echo "<tr class='table-active'>";
 						echo "<a href='?prof={$student['e_mail']}'><th scope='row'><a href='' name='user_prof'>".$student['e_mail']."</th></a>";
-						echo "<td>".$student['uid']."</td>";
+						echo "<td style='color:blue;'>".$student['uid']."</td>";
 						echo "<td>".$student['overall_grade']."</td>";
 						echo "<td>".$student['groups_id']."</td>";
 						$total = $student['total_pages'];
@@ -63,7 +73,7 @@ $tableTop = "<center><table class='table table-hover' name='grp_table' style='wi
 					foreach($students as $student) {
 						echo "<tr class='table-active'>";
 						echo "<a href='?prof={$student['e_mail']}'><th scope='row'><a href='' name='user_prof'>".$student['e_mail']."</th></a>";
-						echo "<td>".$student['uid']."</td>";
+						echo "<td style='color:blue;'>".$student['uid']."</td>";
 						echo "<td>".$student['overall_grade']."</td>";
 						echo "<td>".$student['groups_id']."</td>";
 						$total = $student['total_pages'];
@@ -97,7 +107,7 @@ $tableTop = "<center><table class='table table-hover' name='grp_table' style='wi
 						echo "<tr class='table-active'>";
 						echo "<a href='?prof={$student['e_mail']}'><th scope='row'><a href='' name='user_prof'>".$student['e_mail']."</th></a>";
 						echo "<td>".$student['uid']."</td>";
-						echo "<td>".$student['overall_grade']."</td>";
+						echo "<td style='color:blue;'>".$student['overall_grade']."</td>";
 						echo "<td>".$student['groups_id']."</td>";
 						$total = $student['total_pages'];
 					}
@@ -116,7 +126,7 @@ $tableTop = "<center><table class='table table-hover' name='grp_table' style='wi
 						echo "<tr class='table-active'>";
 						echo "<a href='?prof={$student['e_mail']}'><th scope='row'><a href='' name='user_prof'>".$student['e_mail']."</th></a>";
 						echo "<td>".$student['uid']."</td>";
-						echo "<td>".$student['overall_grade']."</td>";
+						echo "<td style='color:blue;'>".$student['overall_grade']."</td>";
 						echo "<td>".$student['groups_id']."</td>";
 						$total = $student['total_pages'];
 					}
@@ -147,7 +157,7 @@ $tableTop = "<center><table class='table table-hover' name='grp_table' style='wi
 						echo "<tr class='table-active'>";
 						echo "<a href='?prof={$student['e_mail']}'><th scope='row'><a href='' name='user_prof'>".$student['e_mail']."</th></a>";
 						echo "<td>".$student['uid']."</td>";
-						echo "<td>".$student['overall_grade']."</td>";
+						echo "<td style='color:blue;'>".$student['overall_grade']."</td>";
 						echo "<td>".$student['groups_id']."</td>";
 						$total = $student['total_pages'];
 					}
@@ -166,7 +176,7 @@ $tableTop = "<center><table class='table table-hover' name='grp_table' style='wi
 						echo "<tr class='table-active'>";
 						echo "<a href='?prof={$student['e_mail']}'><th scope='row'><a href='' name='user_prof'>".$student['e_mail']."</th></a>";
 						echo "<td>".$student['uid']."</td>";
-						echo "<td>".$student['overall_grade']."</td>";
+						echo "<td style='color:blue;'>".$student['overall_grade']."</td>";
 						echo "<td>".$student['groups_id']."</td>";
 						$total = $student['total_pages'];
 					}

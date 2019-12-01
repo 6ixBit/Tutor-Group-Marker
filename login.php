@@ -10,7 +10,7 @@
 <title> Login </title>
 <?php
     if ( isset($_POST['submit']) ) {                               
-        if (empty($_POST[ 'email' ]) || empty($_POST[ 'password' ])) {      /// Check whether or not login fiels are empty
+        if (empty($_POST[ 'email' ]) || empty($_POST[ 'password' ])) {      /// Check whether or not login fields are empty
             $error = 'One of your fields are empty';
             header('Location: login.php');
         } else {
