@@ -8,8 +8,7 @@
     session_start();  
 
 	  if(isset($_SESSION['username'])){   
-		 //IF user is logged in Session 
-        include 'templates/tutor_nav.html';  
+		 //IF user is logged in Session  
     } else {
 		//IF user is not logged in
         header( 'Location: login.php' );
@@ -55,21 +54,6 @@
 		// Once finalised then update overall grade in member table for user.
 		$avg = calc_average_grade($user['e_mail'], $conn);
 		set_ovr_grade($user['e_mail'], $avg, $conn);
-	}
-
-	if (isset($_POST['delete_review'])) { // FIX NEEDED
-		//$select_user = $_POST['users_in_group']; //line throwing error
-		// IF user deletes review
-		//delete_review($user['db_id'], $selected_user, $conn);
-
-		if (isset($_POST['users_in_group'])) {
-			echo "Group value is set";
-		} else {
-			echo "User being reviewed is not set";
-			echo $_POST['member'];
-		}
-		
-		//del_review($conn);
 	}
 
 	if (isset($_POST['load_review'])) {
@@ -126,7 +110,7 @@
 				$group_members = get_group_members($user['e_mail'], $user['groups_id'], $conn);
 
 				foreach($group_members as $member){ ?>
-					<option name='member'> <?php echo $member;?> </option>
+					<option name='member' value='<?php echo $member; ?>'> <?php echo $member;?> </option>
 				<?php } ?>
 				</select>
             </div>
@@ -162,7 +146,7 @@
         </div>
 
 			<button name='load_review' class='load_review'>Load selected user</button>
-			<button type='submit' name='save_review' class='save_button'>Save temporarily</button> 
+			<button type='submit' name='save_review' class='save_button' disabled>Save temporarily</button> 
 			<button type='submit' name='submit_review' class='finalise_button'>Submit for marking</button> 
 			<?php if ( $update_success ) { echo "<p class='insert_error' style='color:green;'><strong>".$update_success."</strong></p>"; }  ?>
 			<?php if ( $finalise_success ) { echo "<p class='insert_error' style='color:green;'><strong>".$finalise_success."</strong></p>"; }  ?>
@@ -170,6 +154,24 @@
        </div>
 
     </body>
+
+
+<?php 
+
+if (isset($_POST['delete_review'])) { // FIX NEEDED
+		//$select_user = $_POST['users_in_group']; //line throwing error
+		// IF user deletes review
+		//delete_review($user['db_id'], $selected_user, $conn);
+
+		//Delete review
+		$user = get_user($_SESSION['username'], $conn);
+		echo $user['db_id'];
+		$selected = $_POST['users_in_group'];
+		echo $selected;
+		//delete_review($user['db_id'], $conn);
+	
+	}
+?>
 
 	 <style>  
 					.reviewText {

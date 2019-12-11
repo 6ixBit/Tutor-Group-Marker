@@ -195,7 +195,7 @@ include_once 'controller.php';
 
 	function get_all_reviews($username, $conn){
 		//-- Returns the reviews for $username passed --//
-		$query = "SELECT description, verdict, review_image, user_reviewed FROM Rating WHERE user_reviewed='$username'";
+		$query = "SELECT description, verdict, review_image, user_reviewed FROM Rating WHERE user_reviewed='$username' AND finalised=1";
 
 		$result = mysqli_query($conn, $query);
 
@@ -211,7 +211,7 @@ include_once 'controller.php';
                  );
 			}
 		} else {
-			echo "No reviews for this user found!";
+			echo "<p style='color:red;'><b>No finalised reviews found for this user</b></p>";
 		}
 		mysqli_close($conn);
 
@@ -359,7 +359,7 @@ include_once 'controller.php';
 		//-- Will delete review for selected user in drop down if it exists, if it doesn't then will return null --//
 		$user_reviewed = $_POST['users_in_group'];
 
-		$query = "DELETE FROM Rating WHERE Member_id={$user_id} AND user_reviewed='$user_reviewed'";
+		$query = "DELETE FROM Rating WHERE Member_id=$user_id AND user_reviewed='$user_reviewed'";
 
 		$result = mysqli_query($conn, $query);
 

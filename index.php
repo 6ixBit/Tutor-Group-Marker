@@ -15,12 +15,19 @@
 
 <div class="jumbotron">
   <h1 class="display-3">Tutor Group Marking System</h1>
-  <p class="lead">As a student it is integral that you complete your work on time. </p>
+  <p class="lead">Using this website, you can submit reviews for peers within your group, you can add text and an image to further justify 
+  your review, however using an image is optional so it is all up to you. To leave a review for a peer within your group simply click on the Peer Review button in the navigation bar above.</p>
   <hr class="my-4">
-  <p>It uses spacing to space content out within the larger container.</p>
-  <p class="lead">
-    <a class="btn btn-primary btn-lg" href="#" role="button">Test</a>
-  </p>
+
+  <br>
+  <h3>Loading reviews</h3>
+  <p>In order to load a review that you may have previously submitted temporarily, use the drop down on the peer review page to load one for that specific user. If found the review
+  will load in the left hand corner, if a review for that user by you doesn't currently exist, you will be alerted and prompted to create one for that user.</p> 
+  <br>
+  <h3 style='color:red;'>Warning</h3>
+  <p>Once a review for a user is loaded and you wanted to modify it for final submission, only the text, rating and image that is currently loaded in the review form (Always empty) will be submitted, 
+  your old review that may be in view on the left will be discarded. Please double check that you have entered data in the form to get submitted when finalising work or your previous review will be lost.</p>
+
 </div>
 </body>
 </html>

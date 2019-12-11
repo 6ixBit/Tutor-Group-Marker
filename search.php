@@ -7,8 +7,7 @@
 	 // $_SESSION['user_profile']; Pass clicked result to profile page //
 
 	   if(isset($_SESSION['username'])){   
-		 //IF user is logged in Session 
-        include 'templates/tutor_nav.html';  
+		 //IF user is logged in Session then direct to intended page
     } else {
 		//IF user is not logged in
         header( 'Location: login.php' );

@@ -1,13 +1,12 @@
 <?php
       session_start();                    
-      include 'templates/tutor_nav.html';  
+      include_once 'templates/tutor_nav.html';  
       
 	  include 'config.php';
 	  include_once 'models.php';
 
 	if(isset($_SESSION['username'])){   
-		 //IF user is logged in Session 
-        include 'templates/tutor_nav.html';  
+		 //IF user is logged in Session proceed to page  
     } else {
 		//IF user is not logged in
         header( 'Location: login.php' );
