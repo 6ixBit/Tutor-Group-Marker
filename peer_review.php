@@ -34,26 +34,39 @@
 			insert_temp_review($conn);
 			update_group_evaluations($user['groups_id'], $conn);
 		} else {
-			//-- IF review does exist then throw an error
-			$rating_id = $loaded_review['rating_id'];
+			//-- IF review does exist then update review
+			if ($loaded_review['finalised'] == 1) {
+				//IF review is finalised
+				$finalised_error = "You already finalised a review for this user, you cannot modify or re-submit it!";
+			} else {
+			//IF review is not finalised then update review
+				$rating_id = $loaded_review['rating_id'];
 
-			update_review($rating_id, $conn);
-			$update_success = "Your review has been saved!";
+				update_review($rating_id, $conn);
+				$update_success = "Your review has been saved!";
+			}
 		}
 	}
 
 	if (isset($_POST['submit_review'])) {
+
 		//-- IF submit button pressed then update review with final details
 		$selected_user = $_POST['users_in_group'];
 		$loaded_review = load_review($user['db_id'], $selected_user, $conn);
 		$rating_id = $loaded_review['rating_id'];
 
-		finalise_review($rating_id, $conn);
-		$finalise_success = "Your review has been finalised and submitted!";
+		if ($loaded_review['finalised'] == 1) {
+				//IF review is finalised
+				$finalised_error = "You already finalised a review for this user, you cannot modify or re-submit it!";
+		} else {
+			// IF review is not finalised
+			finalise_review($rating_id, $conn);
+			$finalise_success = "Your review has been finalised and submitted!";
 
-		// Once finalised then update overall grade in member table for user.
-		$avg = calc_average_grade($user['e_mail'], $conn);
-		set_ovr_grade($user['e_mail'], $avg, $conn);
+			// Once finalised then update overall grade in member table for user.
+			$avg = calc_average_grade($user['e_mail'], $conn);
+			set_ovr_grade($user['e_mail'], $avg, $conn);
+		}
 	}
 
 	if (isset($_POST['load_review'])) {
@@ -69,24 +82,24 @@
 				 </div>";
 		} else {
 			//--IF review for selected user is found --//
-			echo "<div class='review_card'>
-			<h3>Your Review </h3>
-			<div class='card' style='width: 20rem;'>
-				<img class='card-img-top' src=data:image;base64,"."{$loaded_review['image']} alt='Card image cap' style='height: 150px;'>
+				echo "<div class='review_card'>
+						<h3>Your Review </h3>
+						<div class='card' style='width: 20rem;'>
+							<img class='card-img-top' src=data:image;base64,"."{$loaded_review['image']} alt='Card image cap' style='height: 150px;'>
 
-				<div class='card-body'>
-					<h5 class='card-title'><u>Email:</u> {$loaded_review['user_reviewed']} </h5>
-					<h5><u>Rating:</u> <strong>{$loaded_review['rating']} </strong></h5> <br>
-					<p class='card-text'> {$loaded_review['description']} </p>
-				</div>
+							<div class='card-body'>
+								<h5 class='card-title'><u>Email:</u> {$loaded_review['user_reviewed']} </h5>
+								<h5><u>Rating:</u> <strong>{$loaded_review['rating']} </strong></h5> <br>
+								<p class='card-text'> {$loaded_review['description']} </p>
+							</div>
 	
-				<div class='btn btn-danger'>
-					<form action='peer_review.php' method='POST'>
-						<button name='delete_review' type='submit' class='btn btn-danger'>Delete review</button>
-				    </form>
-				</div>
-			</div>
-		</div>";
+							<div class='btn btn-danger'>
+								<form action='peer_review.php' method='POST'>
+									<button name='delete_review' type='submit' class='btn btn-danger'>Delete review</button>
+								</form>
+							</div>
+						</div>
+					</div>";
 		}
 	}
 ?>
@@ -146,10 +159,11 @@
         </div>
 
 			<button name='load_review' class='load_review'>Load selected user</button>
-			<button type='submit' name='save_review' class='save_button' disabled>Save temporarily</button> 
+			<button type='submit' name='save_review' class='save_button'>Save temporarily</button> 
 			<button type='submit' name='submit_review' class='finalise_button'>Submit for marking</button> 
 			<?php if ( $update_success ) { echo "<p class='insert_error' style='color:green;'><strong>".$update_success."</strong></p>"; }  ?>
 			<?php if ( $finalise_success ) { echo "<p class='insert_error' style='color:green;'><strong>".$finalise_success."</strong></p>"; }  ?>
+			<?php if ( $finalised_error ) { echo "<p class='insert_error' style='color:red;'><strong>".$finalised_error."</strong></p>"; }  ?>
          </form>
        </div>
 

@@ -223,7 +223,6 @@ include_once 'controller.php';
 		$query = "UPDATE Member SET overall_grade='$avg_grade' WHERE e_mail='$user_email'";
 
 		if (mysqli_query($conn, $query) ){
-			echo "Overall grade updated";
 		} else {
 			echo "Failed: ". mysqli_error($conn);
 		}
@@ -284,7 +283,7 @@ include_once 'controller.php';
 		// $user_id : Currently signed in user who made review
 		// $peer_email : Email address of user being reviewed 
 
-		$query = "SELECT description, verdict, review_image, user_reviewed, Rating_id FROM Rating WHERE Member_id=$user_id AND user_reviewed='$peer_email'";
+		$query = "SELECT description, verdict, review_image, user_reviewed, Rating_id, finalised FROM Rating WHERE Member_id=$user_id AND user_reviewed='$peer_email'";
 
 		$result = mysqli_query($conn, $query);
 
@@ -295,6 +294,7 @@ include_once 'controller.php';
 		$review_info['image'] = $row['review_image'];
 		$review_info['user_reviewed'] = $row['user_reviewed'];
 		$review_info['rating_id'] = $row['Rating_id'];
+		$review_info['finalised'] = $row['finalised'];
 
 		if (!$result){
 			return False;
