@@ -1,7 +1,8 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\templates"
   ],
-  "SelectedNode": "\\register.php",
+  "SelectedNode": "\\peer_review.php",
   "PreviewInSolutionExplorer": false
 }

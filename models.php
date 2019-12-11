@@ -33,6 +33,22 @@ include_once 'controller.php';
 		return $user;
     }
 
+	function check_if_user_exists($user_id, $conn) {
+		///-- Returns 1 if ID exists and 0 if it doesn't  --///
+		$query = "SELECT * FROM Member WHERE uid='$user_id'";
+        $result = mysqli_query($conn, $query);
+
+		$row = mysqli_fetch_assoc($result);
+
+		if ($row['uid'] == $user_id) {
+			// IF user ID exists
+			return 1;
+		} else {
+			// IF user ID does not exist
+			return 0;
+		}
+	}
+
 	function get_user_passw($username, $conn){
 		///-- Returns the password of a given user. Called upon user login. --/// 
 		$query = "SELECT passw FROM Member WHERE e_mail='$username'";
@@ -368,26 +384,6 @@ include_once 'controller.php';
 		} else {
 			echo "Record was deleted successfully";
 			echo $user_reviewed;
-		}
-	}
-	 //-- FIX NEEDED --//
-	function del_review($conn) {
-		//-- Insert peer review into database --//
-		$current_user = get_user($_SESSION['username'], $conn);
-
-		//-- Parsing data to be inserted --//
-		$current_user_id = intval($current_user['db_id']);
-		$user_reviewed = $_POST['users_in_group'];
-
-		$query = "DELETE FROM Rating WHERE Member_id={$current_user_id} AND user_reviewed='$user_reviewed'";
-
-		$result = mysqli_query($conn, $query);
-
-		if (!mysqli_query($conn, $query)) {
-			echo mysqli_error($conn);
-		} else {
-			echo $user_reviewed;
-			echo "delete completed succesfully";
 		}
 	}
 

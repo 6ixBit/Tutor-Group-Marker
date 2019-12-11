@@ -22,7 +22,14 @@ include_once 'controller.php';
 		$group_id = get_dropdown_id($_POST['groups']);
 		$group_name = $_POST['groups'];
 
-        if ( filter_var($user_email, FILTER_VALIDATE_EMAIL )) {                     // Check if email is valid
+		//Check if user id already exists
+		$check = check_if_user_exists($user_id, $conn);
+		if ($check == 1) {
+			//IF user ID already exists
+			$exists_error = "<p style='color:red;'>Sorry but that user ID already exists</p> <br>";
+		} else {
+			//IF user ID does not exist then continue with workflow
+			if ( filter_var($user_email, FILTER_VALIDATE_EMAIL )) {                     // Check if email is valid
             $json_response = file_get_contents( $url );                             // Grab JSON response from Google API
             $result = json_decode( $json_response );
     
@@ -30,7 +37,7 @@ include_once 'controller.php';
 				$group_count = get_group_count($group_name, $conn);
 
 				if ($group_count >= 3){
-					$group_error = "Sorry, this group already has 3 members";
+					$group_error = "<p style='color:red;'>Sorry, this group already has 3 members</p>";
 				} else {
 					// Encrypt user password and submit to database.
 					$encrypted_pass = encrypt_pass($user_password);
@@ -42,12 +49,13 @@ include_once 'controller.php';
 				}
             } else {
 				//Assign an error message to display if Captcha failed
-                $captcha_error = 'Captcha failed, Please try again!';
+                $captcha_error = "<p style='color:red;'>Captcha failed, Please try again! </p><br>";
             }
         } else {  
 			//Assign an error message to display if email validation failed
-            $email_error = 'The email you entered is not valid';
+            $email_error = "<p style='color:red;'>The email you entered is not valid</p> <br>";
         }
+	}   
     }
 ?>
 
@@ -74,6 +82,8 @@ include_once 'controller.php';
         <?php if ( $captcha_error ) { echo $captcha_error; } ?>                
         <?php if ( $email_error ) { echo $email_error; } ?>
 		<?php if ( $group_error ) { echo $group_error; } ?>
+		<?php if ( $exists_error ) { echo $exists_error; } ?>
+
     </form>
 </center>
 </body>
