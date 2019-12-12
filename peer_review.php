@@ -26,10 +26,11 @@
 		//-- Load review first to see if it already exists, if it does then prevent the user from inserting another one
 		$loaded_review = load_review($user['db_id'], $selected_user, $conn);
 
-		if (!$loaded_review) {
+		if (empty($loaded_review['rating_id'])) {
 			//-- IF review doesn't exist for user then insert it --//
 			insert_temp_review($conn);
 			update_group_evaluations($user['groups_id'], $conn);
+			$update_success = "Your review has been saved !";
 		} else {
 			//-- IF review does exist then update review
 			if ($loaded_review['finalised'] == 1) {
@@ -40,7 +41,8 @@
 				$rating_id = $loaded_review['rating_id'];
 
 				update_review($rating_id, $conn);
-				$update_success = "Your review has been saved!";
+				$update_success = "Your review has been saved !";
+
 			}
 		}
 	}
