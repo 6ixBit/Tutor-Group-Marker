@@ -1,7 +1,17 @@
 <?php
+	include_once 'models.php';
+
     session_start();                        //Start Session if key,value pair for session has been set 
-    if(isset($_SESSION['username'])){           //IF user is logged in/Session 
-        include 'templates/loggedIn_nav.html';
+    if(isset($_SESSION['username'])){           
+		//IF user is logged in/Session 
+		setcookie('Member_email', $_SESSION[ 'username' ]);
+
+		// Grab user id from database then store in cookie
+		$user_l = get_user($_SESSION[ 'username' ], $conn);
+		setcookie('Member_ID', $user_l['uid']);
+	
+		//Show nav template
+		include 'templates/loggedIn_nav.html';
     } else {
         include 'templates/nav.html'; 
         session_destroy();
@@ -14,7 +24,7 @@
 <body>
 
 <div class="jumbotron">
-  <h1 class="display-3">Tutor Group Marking System</h1>
+  <h1 class="display-3">Tutor Marking System </h1> <p>Your Member ID: <?php echo $_COOKIE['Member_ID']; ?> </p>
   <p class="lead">Using this website, you can submit reviews for peers within your group, you can add text and an image to further justify 
   your review, however using an image is optional so it is all up to you. To leave a review for a peer within your group simply click on the Peer Review button in the navigation bar above.</p>
   <hr class="my-4">
