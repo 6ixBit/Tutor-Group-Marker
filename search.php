@@ -1,13 +1,14 @@
 <?php
-	session_start();                    
-    include 'templates/tutor_nav.html'; 
+	session_start();     
+	
 	include 'config.php';
 	include 'models.php';
 
-	 // $_SESSION['user_profile']; Pass clicked result to profile page //
-
 	   if(isset($_SESSION['username'])){   
 		 //IF user is logged in Session then direct to intended page
+		$last_search_term = $_GET['search'];
+		setcookie('search_term', $last_search_term, time() + (10 * 365 * 24 * 60 * 60));
+		include 'templates/tutor_nav.html'; 
     } else {
 		//IF user is not logged in
         header( 'Location: login.php' );
@@ -186,7 +187,6 @@ $tableTop = "<center><table class='table table-hover' name='grp_table' style='wi
 		//IF Search button is pressed
 		if ($_GET['optionsRadios'] == 'byGrade') {
 			// IF grade option is selected
-			//echo $_GET['select_grades']; //Drop down with values
 			if ($_GET['filter_grades'] == 'lt' && !$_GET['sort']) {
 				// IF Greater than chosen and sort is from low to high (ASC)
 				$students = search_by_grade_less(3, $_GET['select_grades'], $conn);
@@ -313,7 +313,14 @@ $tableTop = "<center><table class='table table-hover' name='grp_table' style='wi
 	  <div class="custom-control custom-switch" class="form-inline my-2 my-lg-0">
 		<input type="checkbox" class="custom-control-input" id="customSwitch1" name='sort'>
 		<label class="custom-control-label" for="customSwitch1">Sort from high to low</label>
-      </div>
+      </div><br>
+
+	  <?php 
+	  
+		if ($last_search_term){
+			echo "<p>Last searched item: ".$last_search_term."</p>";
+		}
+		?>
 	</form>
 
 </fieldset>
