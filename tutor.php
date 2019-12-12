@@ -77,6 +77,7 @@
 ?>
 
 <html>
+<center>
 <head>
     <title>Tutor Evaluations</title>
     <script type='text/javascript' src='app.js'></script>
@@ -86,6 +87,7 @@
 <center><h1>Student Groups</h1></center> <br> 
 <!-- For loop to loop over results gather from groups in database -->
 <form action='tutor.php' method='POST'>
+
 <table class="table table-hover" name='grp_table' style="width:1000px">
   <thead>
     <tr>
@@ -118,9 +120,9 @@
 </table> <br> <br>
 </form>
 
-<form method="POST" action='tutor.php'> <!-- Dependent on input, redirect user to profile page and fill with user info based on selected item from form-->
 
-	<label for="final" class='email_lbl'>Email will be sent to selected group: </label>
+<form method="POST" action='tutor.php'> <!-- Dependent on input, redirect user to profile page and fill with user info based on selected item from form-->
+	<center>
 	<div class='email_buttons' id='email'>
 	<button type='submit' class='btn btn-danger' id='final' name='send_results'>Send final results</button>
 	<button type='submit' class='btn btn-info' name='send_reminder'>Send reminder</button>
@@ -130,7 +132,7 @@
 
 	<div class="select-group-user">
 	Select a group:
-		<select name="groups" onchange="" class="select-group">  <!-- Make JS database call on change of value -->
+		<select name="groups" onchange="" class="select-group"> 
 			<?php 
 			$conn = mysqli_connect($host, $user, $password, $db_name);
 			$groups = get_all_groups($conn);
@@ -140,25 +142,27 @@
 			<?php } ?>
 		</select>
 		<button type="submit" name="view_students">Show students </button><br>
+	</center>
 
 </form>
 </div>
 
 </body>
+</center>
 </html>
 
 <style>
 	.select-group-user {
 		position: absolute;
-		left: 25%;
+		left: 40%;
 	}
 	.select_user {
 		position: absolute;
-		left: 50%;
-		bottom: 10%;
+		left: 60%;
+		bottom: 14%;
 	}
 	.email_buttons{
-		left: 3%;
+		left: 20%;
 		position: absolute;
 	}
 	.email_lbl{

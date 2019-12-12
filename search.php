@@ -57,12 +57,22 @@ $tableTop = "<center><table class='table table-hover' name='grp_table' style='wi
 						echo "<td>".$student['groups_id']."</td>";
 						$total = $student['total_pages'];
 					}
+
 					echo $tableBottom;
 					echo "<center><a href='{$_SERVER['REQUEST_URI']}&page=".($_GET['page']-1)."' class='btn btn-danger'>PREV</a>";
 					echo "<a href='{$_SERVER['REQUEST_URI']}&page=".($_GET['page']+1)."' class='btn btn-info'>NEXT</a>";
 					echo "<p>Total pages: ".$total."</p></center>";
+
+					//Output students in drop down so they can be selected
+					echo "<form method='POST' action='tutor.php'><div class='select_user'>
+						View a profile:
+						<select name='students'>";
+					foreach($students as $student) {
+						echo "<option name='{$student['e_mail']}'>".$student['e_mail']."</option>";
+					}
+					echo "</select>";
+					echo "<input name='view_profile' type='submit' value='View profile'> </div></form>";
 				}
-		
 			} else {
 				// IF search by ID field is not empty then search sub string
 				$students = search_id_by_sub_string($_GET['search'], 3, $conn);
@@ -71,7 +81,7 @@ $tableTop = "<center><table class='table table-hover' name='grp_table' style='wi
 					echo $tableTop;
 					foreach($students as $student) {
 						echo "<tr class='table-active'>";
-						echo "<a href='?prof={$student['e_mail']}'><th scope='row'><a href='' name='user_prof'>".$student['e_mail']."</th></a>";
+						echo "<th scope='row'><a href='profile.php' name='user_prof'>".$student['e_mail']."</th></a>";
 						echo "<td style='color:blue;'>".$student['uid']."</td>";
 						echo "<td>".$student['overall_grade']."</td>";
 						echo "<td>".$student['groups_id']."</td>";
@@ -81,6 +91,17 @@ $tableTop = "<center><table class='table table-hover' name='grp_table' style='wi
 					echo "<center><a href='{$_SERVER['REQUEST_URI']}&page=".($_GET['page']-1)."' class='btn btn-danger'>PREV</a>";
 					echo "<a href='{$_SERVER['REQUEST_URI']}&page=".($_GET['page']+1)."' class='btn btn-info'>NEXT</a>";
 					echo "<p>Total pages: ".$total."</p></center>";
+
+					//Output students in drop down so they can be selected
+					echo "<form method='POST' action='tutor.php'><div class='select_user'>
+						View a profile:
+						<select name='students'>";
+					foreach($students as $student) {
+						echo "<option name='{$student['e_mail']}'>".$student['e_mail']."</option>";
+					}
+					echo "</select>";
+					echo "<input name='view_profile' type='submit' value='View profile'>  </div></form>";
+
 				}
 				
 			}
@@ -114,6 +135,16 @@ $tableTop = "<center><table class='table table-hover' name='grp_table' style='wi
 					echo "<center><a href='{$_SERVER['REQUEST_URI']}&page=".($_GET['page']-1)."' class='btn btn-danger'>PREV</a>";
 					echo "<a href='{$_SERVER['REQUEST_URI']}&page=".($_GET['page']+1)."' class='btn btn-info'>NEXT</a>";
 					echo "<p>Total pages: ".$total."</p></center>";
+
+					//Output students in drop down so they can be selected
+					echo "<form method='POST' action='tutor.php'><div class='select_user'>
+						View a profile:
+						<select name='students'>";
+					foreach($students as $student) {
+						echo "<option name='{$student['e_mail']}'>".$student['e_mail']."</option>";
+					}
+					echo "</select>";
+					echo "<input name='view_profile' type='submit' value='View profile'> </div></form>";
 				}
 			} elseif ($_GET['filter_grades'] == 'gt' && $_GET['sort']) {
 				// IF Greater than chosen and sort is from high to low (DESC)
@@ -133,6 +164,16 @@ $tableTop = "<center><table class='table table-hover' name='grp_table' style='wi
 					echo "<center><a href='{$_SERVER['REQUEST_URI']}&page=".($_GET['page']-1)."' class='btn btn-danger'>PREV</a>";
 					echo "<a href='{$_SERVER['REQUEST_URI']}&page=".($_GET['page']+1)."' class='btn btn-info'>NEXT</a>";
 					echo "<p>Total pages: ".$total."</p></center>";
+
+					//Output students in drop down so they can be selected
+					echo "<form method='POST' action='tutor.php'><div class='select_user'>
+						View a profile:
+						<select name='students'>";
+					foreach($students as $student) {
+						echo "<option name='{$student['e_mail']}'>".$student['e_mail']."</option>";
+					}
+					echo "</select>";
+					echo "<input name='view_profile' type='submit' value='View profile'> </div></form>";
 				}
 			}
 		}
@@ -164,6 +205,16 @@ $tableTop = "<center><table class='table table-hover' name='grp_table' style='wi
 					echo "<center><a href='{$_SERVER['REQUEST_URI']}&page=".($_GET['page']-1)."' class='btn btn-danger'>PREV</a>";
 					echo "<a href='{$_SERVER['REQUEST_URI']}&page=".($_GET['page']+1)."' class='btn btn-info'>NEXT</a>";
 					echo "<p>Total pages: ".$total."</p></center>";
+
+					//Output students in drop down so they can be selected
+					echo "<form method='POST' action='tutor.php'><div class='select_user'>
+						View a profile:
+						<select name='students'>";
+					foreach($students as $student) {
+						echo "<option name='{$student['e_mail']}'>".$student['e_mail']."</option>";
+					}
+					echo "</select>";
+					echo "<input name='view_profile' type='submit' value='View profile'> </div></form>";
 				}
 			} elseif ($_GET['filter_grades'] == 'lt' && $_GET['sort']) {
 				// IF Greater than chosen and sort is from high to low (DESC)
@@ -183,9 +234,29 @@ $tableTop = "<center><table class='table table-hover' name='grp_table' style='wi
 					echo "<center><a href='{$_SERVER['REQUEST_URI']}&page=".($_GET['page']-1)."' class='btn btn-danger'>PREV</a>";
 					echo "<a href='{$_SERVER['REQUEST_URI']}&page=".($_GET['page']+1)."' class='btn btn-info'>NEXT</a>";
 					echo "<p>Total pages: ".$total."</p></center>";
+
+					//Output students in drop down so they can be selected
+					echo "<form method='POST' action='tutor.php'><div class='select_user'>
+						View a profile:
+						<select name='students'>";
+					foreach($students as $student) {
+						echo "<option name='{$student['e_mail']}'>".$student['e_mail']."</option>";
+					}
+					echo "</select>";
+					echo "<input name='view_profile' type='submit' value='View profile'> </div></form>";
 				}
 			}
 		}
+	}
+?>
+
+
+<?php
+	if(isset($_POST['view_profile'])) {
+	//-- IF tutor selects a profile to view
+		$_SESSION['user_profile'] = $_POST['students'];
+		echo $_SESSION['user_profile'];
+		header( 'Location: profile.php' );
 	}
 ?>
 
@@ -197,7 +268,7 @@ $tableTop = "<center><table class='table table-hover' name='grp_table' style='wi
 <div class='searching'>
 <fieldset class="form-group">
 
-	<form>
+	<form class="search_form">
       <legend>Search for users</legend><br>
 
         <input class="form my-2 my-lg-0" type="text" placeholder="Search" name="search">
@@ -249,3 +320,17 @@ $tableTop = "<center><table class='table table-hover' name='grp_table' style='wi
 </div>
 </body>
 </html>
+
+	 <style>  
+			.search_form {
+            position: absolute;
+            left: 3%;
+            top: 7%;}  
+
+			.select_user {
+			position: absolute;
+            right: 3%;
+            top: 14%;
+			}
+
+	</style>
