@@ -428,7 +428,7 @@ include_once 'controller.php';
                  );
 			}
 		} else {
-			echo "No results";
+			echo "<center><p class='no_res_error'>No results</p></center>";
 		}
 		mysqli_close($conn);
 
@@ -475,7 +475,7 @@ include_once 'controller.php';
                  );
 			}
 		} else {
-			echo "No results";
+			echo "<center><p class='no_res_error'>No results</p></center>";
 		}
 		mysqli_close($conn);
 
@@ -523,7 +523,7 @@ include_once 'controller.php';
                  );
 			}
 		} else {
-			echo "No results";
+			echo "<center><p class='no_res_error'>No results</p></center>";
 		}
 		mysqli_close($conn);
 
@@ -570,7 +570,7 @@ include_once 'controller.php';
                  );
 			}
 		} else {
-			echo "No results";
+			echo "<center><p class='no_res_error'>No results</p></center>";
 		}
 		mysqli_close($conn);
 
@@ -618,7 +618,7 @@ include_once 'controller.php';
                  );
 			}
 		} else {
-			echo "No results";
+			echo "<center><p class='no_res_error'>No results</p></center>";
 		}
 		mysqli_close($conn);
 
@@ -665,7 +665,7 @@ include_once 'controller.php';
                  );
 			}
 		} else {
-			echo "No results";
+			echo "<center><p class='no_res_error'>No results</p></center>";
 		}
 		mysqli_close($conn);
 

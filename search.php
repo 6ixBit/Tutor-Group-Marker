@@ -340,4 +340,10 @@ $tableTop = "<center><table class='table table-hover' name='grp_table' style='wi
             top: 14%;
 			}
 
+			.no_res_error{
+            bottom: 15%;
+			right 40%;
+			color: red;
+			}
+
 	</style>
