@@ -54,15 +54,11 @@
 		$user = get_user($_SESSION['username'], $conn); 
 
 		insert_temp_review($conn);
-		sleep(1); //Delay insertion so that it can be loaded
+		sleep(1);				//Delay insertion so that it can be loaded
 
 		$loaded_review = load_review($user['db_id'], $selected_user, $conn);
 		$rating_id = $loaded_review['rating_id'];
-
-		print_r($loaded_review);
-		//echo $selected_user;
-		//echo $user['db_id'];
-
+	
 		if ($loaded_review['finalised'] == 1) {
 				//IF review is finalised
 				$finalised_error = "You already finalised a review for this user, you cannot modify or re-submit it!";
@@ -70,11 +66,12 @@
 			// IF review is not finalised
 			finalise_review($rating_id, $conn);
 			update_group_evaluations($user['groups_id'], $conn);
-			$finalise_success = "Your review has been finalised and submitted!";
 
 			// Once finalised then update overall grade in member table for user.
 			$avg = calc_average_grade($user['e_mail'], $conn);
 			set_ovr_grade($user['e_mail'], $avg, $conn);
+
+			$finalise_success = "Your review has been finalised and submitted!";
 		}
 	}
 
@@ -83,7 +80,7 @@
 		
 		$loaded_review = load_review($user['db_id'], $selected_user, $conn);
 
-		if (!$loaded_review){
+		if (!$loaded_review['rating_id']){
 			//-- IF review is NOT found --//
 			echo "<div class='alert alert-danger alert-dismissible'>
 				 <button type='button' class='close' data-dismiss='alert'>&times;</button>

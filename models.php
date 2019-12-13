@@ -133,7 +133,7 @@ include_once 'controller.php';
 
 	function get_evaluations_count($group_name, $conn){ 
 		///-- Returns number of evaluations in a group --///
-		$query = "SELECT no_of_evaluations FROM Groups WHERE group_name='$group_name'";
+		$query = "SELECT no_of_evaluations FROM Groups WHERE Groups_id='$group_name'";
 		$result = mysqli_query($conn, $query);
 
 		$row = mysqli_fetch_assoc($result);
@@ -162,7 +162,6 @@ include_once 'controller.php';
 		$query = "UPDATE Groups SET no_of_evaluations=$updated_eval_count WHERE Groups_id='$group_name'";
 
 		if (mysqli_query($conn, $query) ){
-			echo "Record updated";
 		} else {
 			echo "Failed: ". mysqli_error($conn);
 		}
