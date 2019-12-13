@@ -15,6 +15,26 @@ include_once 'controller.php';
 		return intval($row['AVG(verdict)']);
     }
 
+	function resolve_member_id($member_id, $conn) {
+		///-- Returns an instance of a given user based on member ID provided  --///
+		$member_id_ = intval($member_id);
+
+		$query = "SELECT * FROM Member WHERE Member_id=$member_id_";
+        $result = mysqli_query($conn, $query);
+
+		$row = mysqli_fetch_assoc($result);
+
+		// Parse results into associative array so it can be returned on function call.
+		$user['groups_id'] = $row['Groups_id'];
+		$user['db_id'] = $row['Member_id'];
+		$user['e_mail'] = $row['e_mail'];
+		$user['uid'] = $row['uid'];
+		$user['role'] = $row['role'];
+		$user['overall_grade'] = $row['overall_grade'];
+
+		return $user['e_mail'];
+	}
+
     function get_user($username, $conn){
 		///-- Returns an instance of a given user  --///
 		$query = "SELECT * FROM Member WHERE e_mail='$username'";
@@ -210,7 +230,7 @@ include_once 'controller.php';
 
 	function get_all_reviews($username, $conn){
 		//-- Returns the reviews for $username passed --//
-		$query = "SELECT description, verdict, review_image, user_reviewed FROM Rating WHERE user_reviewed='$username' AND finalised=1";
+		$query = "SELECT description, verdict, review_image, user_reviewed, Member_id FROM Rating WHERE user_reviewed='$username' AND finalised=1";
 
 		$result = mysqli_query($conn, $query);
 
@@ -222,7 +242,7 @@ include_once 'controller.php';
 				"rating" => $row["verdict"],
 				"user_reviewed" => $row['user_reviewed'],
 				"review_image" => $row['review_image'],
-				"review_by" => $row['Member_id']
+				"review_by" => resolve_member_id($row['Member_id'], $conn)
                  );
 			}
 		} else {
@@ -672,4 +692,5 @@ include_once 'controller.php';
 	}
 	
 	//register_student("admin@gre.ac.uk", encrypt_pass("hsalsldld"), "05045465", 2, $conn);	
+	//print_r(resolve_member_id(17, $conn));
 ?>

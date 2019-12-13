@@ -42,32 +42,32 @@
 	if (!reviews['review_image']) {
 		//-- IF image is NOT found then output different type of card
 		foreach($reviews as $rev){
+
 			echo "<div class='review_card'>
-			<h3>Reviews: </h3>
 			<div class='card' style='width: 21rem;'>
 				
 				<div class='card-body'>
-					<h5 class='card-title'><u>Reviewed by: </u> {$rev['user_reviewed']} </h5>
+					<h5 class='card-title'><u>Reviewed by: </u> {$rev['review_by']} </h5>
 					<h5><u>Rating: </u> <strong>{$rev['rating']} </strong></h5> <br>
 					<p class='card-text'> {$rev['description']} </p>
 				</div>
 			</div>
-		</div>";}
+		</div><br>";}
 	} else {
 		//-- IF image is found then output default card
 		foreach($reviews as $rev){
+
 			echo "<div class='review_card'>
-			<h3>Reviews: </h3>
 			<div class='card' style='width: 22rem;'>
 				<img class='card-img-top' src=data:image;base64,"."{$rev['review_image']} alt='Card image cap' style='height: 150px;'>
 
 				<div class='card-body'>
-					<h5 class='card-title'><u>Reviewed by: </u> {$rev['user_reviewed']} </h5>
+					<h5 class='card-title'><u>Reviewed by: </u> {$rev['review_by']} </h5>
 					<h5><u>Rating: </u> <strong>{$rev['rating']} </strong></h5> <br>
 					<p class='card-text'> {$rev['description']} </p>
 				</div>
 			</div>
-		</div>";}
+		</div><br>";}
 	}
 ?>
 
