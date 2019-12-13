@@ -159,10 +159,10 @@ include_once 'controller.php';
 		$current_eval_count = get_evaluations_count($group_name, $conn);
 		$updated_eval_count = $current_eval_count + 1;
 
-		$query = "UPDATE Groups SET no_of_evaluations=$updated_eval_count WHERE group_name='$group_name'";
+		$query = "UPDATE Groups SET no_of_evaluations=$updated_eval_count WHERE Groups_id='$group_name'";
 
 		if (mysqli_query($conn, $query) ){
-			//echo "Record updated";
+			echo "Record updated";
 		} else {
 			echo "Failed: ". mysqli_error($conn);
 		}

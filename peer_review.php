@@ -29,7 +29,8 @@
 		if (empty($loaded_review['rating_id'])) {
 			//-- IF review doesn't exist for user then insert it --//
 			insert_temp_review($conn);
-			update_group_evaluations($user['groups_id'], $conn);
+
+			//update_group_evaluations($user['groups_id'], $conn);
 			$update_success = "Your review has been saved !";
 		} else {
 			//-- IF review does exist then update review
@@ -42,7 +43,6 @@
 
 				update_review($rating_id, $conn);
 				$update_success = "Your review has been saved !";
-
 			}
 		}
 	}
@@ -51,8 +51,17 @@
 
 		//-- IF submit button pressed then update review with final details
 		$selected_user = $_POST['users_in_group'];
+		$user = get_user($_SESSION['username'], $conn); 
+
+		insert_temp_review($conn);
+		sleep(1); //Delay insertion so that it can be loaded
+
 		$loaded_review = load_review($user['db_id'], $selected_user, $conn);
 		$rating_id = $loaded_review['rating_id'];
+
+		print_r($loaded_review);
+		//echo $selected_user;
+		//echo $user['db_id'];
 
 		if ($loaded_review['finalised'] == 1) {
 				//IF review is finalised
@@ -60,6 +69,7 @@
 		} else {
 			// IF review is not finalised
 			finalise_review($rating_id, $conn);
+			update_group_evaluations($user['groups_id'], $conn);
 			$finalise_success = "Your review has been finalised and submitted!";
 
 			// Once finalised then update overall grade in member table for user.
