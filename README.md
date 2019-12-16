@@ -16,7 +16,7 @@ The Tutor for the system can view all users within each group on a user profile 
  - Last search term for Tutor is remembered using Cookies
  - Tutor can send emails to groups with incomplete work as a reminder
  
-# MVC
+# Design Pattern - (MVC)
 - All DB related functionality is stored in models.php
 - Functions with responsibility of processing data before pushed to views is stored in controller.php
 - Views are stored in root directory in pages such as login.php, register.php
